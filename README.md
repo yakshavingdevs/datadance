@@ -1,5 +1,5 @@
 # Datadance
-Datadance is a simple data processing server that takes a JSOn input, performs simple operations on it and returns an output.
+Datadance is a simple data processing server that takes a JSON input, performs simple operations, and returns an output.
 
 # How to run the server
 ```deno task serve```
@@ -14,19 +14,19 @@ MozJexl: https://www.npmjs.com/package/mozjexl
 ```json
 {
   "input": {
-    name: {
-        first: "Malory",
-        last: "Archer"
+    "name": {
+        "first": "Malory",
+        "last": "Archer"
     },
-    exes: [
+    "exes": [
         "Nikolai Jakov",
         "Len Trexler",
         "Burt Reynolds"
     ],
-    lastEx: 2
+    "lastEx": 2
   },
   "transforms": {
-    lastEx: "input.lastEx + 5"
+    "lastEx": "input.lastEx + 5"
   },
   "settings": {
     "merge_method": "overwrite (default) | preserve | transforms_only"
@@ -39,80 +39,80 @@ MozJexl: https://www.npmjs.com/package/mozjexl
 1. overwrite (default)
 
 Input:
-```
+```json
 {
-    name: {
-        first: "Malory",
-        last: "Archer"
+    "name": {
+        "first": "Malory",
+        "last": "Archer"
     },
-    exes: [
+    "exes": [
         "Nikolai Jakov",
         "Len Trexler",
         "Burt Reynolds"
     ],
-    lastEx: 2
+    "lastEx": 2
 }
 ```
 Transforms: 
-```
+```json
 {
-  lastEx: "input.lastEx + 5"
+  "lastEx": "input.lastEx + 5"
 }
 ```
 Output:
-```
+```json
 {
-    name: {
-        first: "Malory",
-        last: "Archer"
+    "name": {
+        "first": "Malory",
+        "last": "Archer"
     },
-    exes: [
+    "exes": [
         "Nikolai Jakov",
         "Len Trexler",
         "Burt Reynolds"
     ],
-    lastEx: 7
+    "lastEx": 7
 }
 ```
 
 2. preserve
 
 Input:
-```
+```json
 {
-    name: {
-        first: "Malory",
-        last: "Archer"
+    "name": {
+        "first": "Malory",
+        "last": "Archer"
     },
-    exes: [
+    "exes": [
         "Nikolai Jakov",
         "Len Trexler",
         "Burt Reynolds"
     ],
-    lastEx: 2
+    "lastEx": 2
 }
 ```
 Transforms: 
-```
+```json
 {
-  lastEx: "input.lastEx + 5"
+  "lastEx": "input.lastEx + 5"
 }
 ```
 Output:
-```
+```json
 {
-    name: {
-        first: "Malory",
-        last: "Archer"
+    "name": {
+        "first": "Malory",
+        "last": "Archer"
     },
-    exes: [
+    "exes": [
         "Nikolai Jakov",
         "Len Trexler",
         "Burt Reynolds"
     ],
-    lastEx: 2
-    transforms: {
-      lastEx: 7
+    "lastEx": 2
+    "transforms": {
+      "lastEx": 7
     }
 }
 ```
@@ -120,29 +120,29 @@ Output:
 3. transforms_only
 
 Input:
-```
+```json
 {
-    name: {
-        first: "Malory",
-        last: "Archer"
+    "name": {
+        "first": "Malory",
+        "last": "Archer"
     },
-    exes: [
+    "exes": [
         "Nikolai Jakov",
         "Len Trexler",
         "Burt Reynolds"
     ],
-    lastEx: 2
+    "lastEx": 2
 }
 ```
 Transforms: 
-```
+```json
 {
-  lastEx: "input.lastEx + 5"
+  "lastEx": "input.lastEx + 5"
 }
 ```
 Output:
-```
+```json
 {
-  lastEx: 7
+  "lastEx": 7
 }
 ```
