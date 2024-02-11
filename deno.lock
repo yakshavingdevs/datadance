@@ -1,0 +1,21 @@
+{
+  "version": "3",
+  "packages": {
+    "specifiers": {
+      "npm:mozjexl": "npm:mozjexl@1.1.6",
+      "npm:mozjexl@1.1.6": "npm:mozjexl@1.1.6"
+    },
+    "npm": {
+      "mozjexl@1.1.6": {
+        "integrity": "sha512-34nvJEO7yLjMxooe0qfVUfBvotz270UFuhX0MmTM/0tR5HPJpjTYQLE7IyNag7EF6HPNmnBu0Y6kKoH6MvH8Lw==",
+        "dependencies": {}
+      }
+    }
+  },
+  "redirects": {
+    "https://deno.land/std/version.ts": "https://deno.land/std@0.215.0/version.ts"
+  },
+  "remote": {
+    "https://deno.land/std@0.215.0/version.ts": "5dc0beb37736efb94a13a0259dce21aed57bf351ae5c5797b84e51340e2450d0"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "tasks": {
+    "serve": "deno run --watch --allow-net ./src/datadance.ts"
+  }
+}
