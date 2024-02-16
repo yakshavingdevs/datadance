@@ -15,4 +15,4 @@ const handler = async (request: Request): Promise<Response> => {
   });
 }
 
-Deno.serve(handler);
+Deno.serve(handler)

@@ -1,9 +1,9 @@
 export interface RouteKey {
   method: string;
-  pattern: URLPattern;
+  pattern: URLPattern
 }
 
 export type Controller = (
   urlData: URLPatternResult,
   originalRequest: Request,
-) => Promise<Response>;
+) => Promise<Response>

@@ -1,54 +1,45 @@
-import mozjexl from 'npm:mozjexl';
+import mozjexl from 'npm:mozjexl'
 
-import { Controller } from '../types.ts' 
-
-// export function parseJSON(jsonString: string): object | Error {
-//     try {
-//         const parsedJSON = JSON.parse(jsonString);
-//         return parsedJSON;
-//     } catch (error) {
-//         if (error instanceof SyntaxError) {
-//             return new Error('Invalid JSON format.');
-//         } else {
-//             return error;
-//         }
-//     }
-// }
-
-// let context = {
-//     name: {
-//         first: "Malory",
-//         last: "Archer"
-//     },
-//     exes: [
-//         "Nikolai Jakov",
-//         "Len Trexler",
-//         "Burt Reynolds"
-//     ],
-//     lastEx: 2
-// }
-
-
-// mozjexl.eval(`name.first + " " + 10 + exes[]`,context).then((res : string) => {
-//     console.log(res);
-// });
+import { Controller } from '../types.ts'
 
 const ProcessController: Controller = async (_urlData, _originalRequest) => {
   const requestJsonObject = await _originalRequest.json()
 
   const input: Record<string, any> = requestJsonObject.input
-  const transforms: Record<string, any> = requestJsonObject.transforms
+  const transforms: Record<string, any>[] = requestJsonObject.transforms
   const settings: Record<string, any> = requestJsonObject.settings
 
-  const derived: Record<string, any> = {...input};
+  const derived: Record<string, any> = { ...input }
   const transformedOutput: Record<string, any> = {}
-  
-  for (const field of Object.keys(transforms)) {
-    transformedOutput[field] = await mozjexl.eval(transforms[field], {
-      input,
-      derived
-    })
-    derived[field] = transformedOutput[field]
+
+  for (const fieldTransformObject of transforms) {
+      let field: string | undefined = undefined
+
+      if (Object.keys(fieldTransformObject).length !== 1) {
+        return Response.json({
+          "error": "Each transform has to have only one key"
+        }, {
+          status: 500
+        })
+      }
+      else {
+        field = Object.keys(fieldTransformObject)[0]
+        
+        transformedOutput[field] = await mozjexl.eval(fieldTransformObject[field], {
+          input,
+          derived
+        })
+      }
+
+      if(!transformedOutput[field]) {
+        return Response.json({
+          "error": `The transform, "${fieldTransformObject[field]}" uses variables not available in the context`
+        }, {
+          status: 500
+        })
+      }
+
+      derived[field] = transformedOutput[field]
   }
 
   if (!settings.merge_method || settings.merge_method.toLowerCase() === "overwrite") {

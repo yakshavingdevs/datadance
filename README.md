@@ -25,9 +25,9 @@ MozJexl: https://www.npmjs.com/package/mozjexl
     ],
     "lastEx": 2
   },
-  "transforms": {
-    "lastEx": "input.lastEx + 5"
-  },
+  "transforms": [
+    {"lastEx": "input.lastEx + 5"}
+  ],
   "settings": {
     "merge_method": "overwrite (default) | preserve | transforms_only"
   }
@@ -55,9 +55,9 @@ Input:
 ```
 Transforms: 
 ```json
-{
-  "lastEx": "input.lastEx + 5"
-}
+[
+  {"lastEx": "input.lastEx + 5"}
+]
 ```
 Output:
 ```json
@@ -94,9 +94,9 @@ Input:
 ```
 Transforms: 
 ```json
-{
-  "lastEx": "input.lastEx + 5"
-}
+[
+  {"lastEx": "input.lastEx + 5"}
+]
 ```
 Output:
 ```json
@@ -136,9 +136,9 @@ Input:
 ```
 Transforms: 
 ```json
-{
-  "lastEx": "input.lastEx + 5"
-}
+[
+  {"lastEx": "input.lastEx + 5"}
+]
 ```
 Output:
 ```json
