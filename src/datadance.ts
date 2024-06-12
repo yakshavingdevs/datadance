@@ -5,8 +5,6 @@ const handler = async (request: Request): Promise<Response> => {
     const url = new URL(request.url);
     for (const [routeKey, controller] of routes.entries()) {
       const routePatternMatch = routeKey.pattern.exec(url);
-      console.log(request.method);
-      console.log(url.pathname);
       if (request.method === routeKey.method && routePatternMatch) {
         try {
           const response = await controller(routePatternMatch, request);
