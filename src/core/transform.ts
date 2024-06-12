@@ -3,6 +3,10 @@ import mozjexl from "npm:mozjexl";
 import { DataObject } from "../types.ts";
 import { ErrorObject } from "../types.ts";
 
+mozjexl.addTransform("upper",(val: any) => {
+    return val.toUpperCase();
+});
+
 const transform = async (
   dataObject: DataObject,
 ): Promise<Record<string, any> | ErrorObject> => {
