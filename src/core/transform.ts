@@ -32,6 +32,13 @@ const transform = async (
 
     for (const fieldTransformObject of transforms) {
       if (Object.keys(fieldTransformObject).length !== 1) {
+        console.error(
+          `%cerror-101 : In the transformation : --> ${
+            JSON.stringify(fieldTransformObject)
+          } <--,
+           there are more than one keys.`,
+          "color:red",
+        );
         return { "error-101": "Each transform has to have only one key" };
       }
 
@@ -76,23 +83,38 @@ const transform = async (
             dataObjectClone.pathTrace.pop();
           }
 
-          transformedOutput[field] = intermediateResultObject;
+          if (!_isTemporaryField(field)) {
+            transformedOutput[field] = intermediateResultObject;
+          }
           dataObjectClone.pathTrace.pop();
           dataObjectClone.isSubTransformation = false;
         } else {
-          const result = await mozjexl.eval(expression, { input, derived });
+          let result = await mozjexl.eval(expression, { input, derived });
           if (result === undefined) {
-            return {
+            result = {
               "error-102":
                 `The transform ${expression} uses variables not available in the context`,
             };
+            console.error(
+              `%cerror-102 : The expression : --> ${
+                JSON.stringify(expression)
+              } <--,
+           uses variables not available in the context.`,
+              "color:red",
+            );
           }
 
-          transformedOutput[field] = result;
+          if (!_isTemporaryField(field)) transformedOutput[field] = result;
           if (!isSubTransformation) derived[field] = result;
         }
       } catch (error) {
-        return { "error-103": error.toString() };
+        const errorResult = { "error-103": error.toString() };
+        console.error(
+          `%cerror-103 : ${errorResult}`,
+          "color:red",
+        );
+        if (!_isTemporaryField(field)) transformedOutput[field] = errorResult;
+        if (!isSubTransformation) derived[field] = errorResult;
       }
     }
 
@@ -127,6 +149,13 @@ const _updateDerivedState = (
       currentObject = currentObject[path];
     }
   });
+};
+
+const _isTemporaryField = (fieldName: string) => {
+  if (fieldName.startsWith("_")) {
+    return true;
+  }
+  return false;
 };
 
 export default transform;
