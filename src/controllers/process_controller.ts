@@ -1,5 +1,5 @@
 import { Controller } from "../types.ts";
-import transform from "../core/transform.ts";
+import {transform} from "../core/transform.ts";
 
 const ProcessController: Controller = async (_urlData, request) => {
   try {
