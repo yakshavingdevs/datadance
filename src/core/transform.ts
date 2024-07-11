@@ -88,7 +88,7 @@ export const transform = async (
           dataObjectClone.isSubTransformation = false;
         } else {
           let result = await mozjexl.eval(expression, { input, derived });
-          if (result === undefined) {
+          if (result === undefined || result === null) {
             result = {
               "error-102": `The transform ${expression} uses variables not available in the context`,
             };
