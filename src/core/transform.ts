@@ -3,19 +3,17 @@ import mozjexl from "./custom_transforms.ts";
 import { DataObject, ErrorObject, Expression } from "../types.ts";
 import { errors } from "../constants/constants.ts";
 
-const transform = async (
-  dataObject: DataObject,
+export const transform = async (
+  dataObject: DataObject
 ): Promise<Record<string, any> | ErrorObject> => {
   try {
     const { input, transforms, settings } = dataObject;
 
-    const derived: Record<string, any> = dataObject.derived !== undefined
-      ? dataObject.derived
-      : { ...input };
+    const derived: Record<string, any> =
+      dataObject.derived !== undefined ? dataObject.derived : { ...input };
 
-    const pathTrace: Array<string> = dataObject.pathTrace !== undefined
-      ? dataObject.pathTrace
-      : [];
+    const pathTrace: Array<string> =
+      dataObject.pathTrace !== undefined ? dataObject.pathTrace : [];
 
     const isSubTransformation: boolean =
       dataObject.isSubTransformation !== undefined
@@ -33,11 +31,11 @@ const transform = async (
     for (const fieldTransformObject of transforms) {
       if (Object.keys(fieldTransformObject).length !== 1) {
         console.error(
-          `%cerror-101 : In the transformation : --> ${
-            JSON.stringify(fieldTransformObject)
-          } <--,
+          `%cerror-101 : In the transformation : --> ${JSON.stringify(
+            fieldTransformObject
+          )} <--,
            there are more than one keys.`,
-          "color:red",
+          "color:red"
         );
         return { "error-101": "Each transform has to have only one key" };
       }
@@ -46,6 +44,10 @@ const transform = async (
       const expression: Expression = fieldTransformObject[field];
 
       try {
+        if (_isSubTransformBlock(field)) {
+          dataObjectClone.derived[field] = expression;
+          continue;
+        }
         if (Array.isArray(expression)) {
           let intermediateResultObject = {};
           dataObjectClone.pathTrace.push(field);
@@ -74,11 +76,7 @@ const transform = async (
               ...intermediateResultObject,
               ...subResult,
             };
-            _updateDerivedState(
-              dataObjectClone.derived,
-              subResult,
-              pathTrace,
-            );
+            _updateDerivedState(dataObjectClone.derived, subResult, pathTrace);
 
             dataObjectClone.pathTrace.pop();
           }
@@ -92,15 +90,14 @@ const transform = async (
           let result = await mozjexl.eval(expression, { input, derived });
           if (result === undefined) {
             result = {
-              "error-102":
-                `The transform ${expression} uses variables not available in the context`,
+              "error-102": `The transform ${expression} uses variables not available in the context`,
             };
             console.error(
-              `%cerror-102 : The expression : --> ${
-                JSON.stringify(expression)
-              } <--,
+              `%cerror-102 : The expression : --> ${JSON.stringify(
+                expression
+              )} <--,
            uses variables not available in the context.`,
-              "color:red",
+              "color:red"
             );
           }
 
@@ -109,10 +106,7 @@ const transform = async (
         }
       } catch (error) {
         const errorResult = { "error-103": error.toString() };
-        console.error(
-          `%cerror-103 : ${errorResult}`,
-          "color:red",
-        );
+        console.error(`%cerror-103 : ${errorResult}`, "color:red");
         if (!_isTemporaryField(field)) transformedOutput[field] = errorResult;
         if (!isSubTransformation) derived[field] = errorResult;
       }
@@ -133,10 +127,10 @@ const transform = async (
   }
 };
 
-const _updateDerivedState = (
+export const _updateDerivedState = (
   targetObject: Record<string, any>,
   sourceObject: Record<string, any>,
-  pathTrace: Array<string>,
+  pathTrace: Array<string>
 ) => {
   let currentObject = targetObject;
   pathTrace.forEach((path, index) => {
@@ -151,11 +145,16 @@ const _updateDerivedState = (
   });
 };
 
-const _isTemporaryField = (fieldName: string) => {
+export const _isTemporaryField = (fieldName: string) => {
   if (fieldName.startsWith("_")) {
     return true;
   }
   return false;
 };
 
-export default transform;
+export const _isSubTransformBlock = (fieldName: string) => {
+  if (fieldName.startsWith("_$")) {
+    return true;
+  }
+  return false;
+};
