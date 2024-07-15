@@ -1,11 +1,11 @@
 import { Controller } from "../types.ts";
-import {transform} from "../core/transform.ts";
+import { transform } from "../core/transform.ts";
 
 const ProcessController: Controller = async (_urlData, request) => {
   try {
     const requestData = await request.json();
     const transformedData = await transform(requestData);
-    
+
     return new Response(JSON.stringify(transformedData), {
       status: 200,
       headers: { "Content-Type": "application/json" },
