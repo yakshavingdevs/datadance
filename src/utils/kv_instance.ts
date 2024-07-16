@@ -5,7 +5,7 @@ class KvSingleton {
 
     public static async getInstance(): Promise<Deno.Kv> {
         if (this.instance === null) {
-            this.instance = await Deno.openKv("../../transform_database.sqlite");
+            this.instance = await Deno.openKv();
         }
         return this.instance;
     }
