@@ -1,6 +1,6 @@
 import mozjexl from "npm:mozjexl";
-import { transform, _isSubTransformBlock, _isTemporaryField, _updateDerivedState } from "./transform.ts";
-import { DataObject } from "../types.ts";
+import { transform, _isSubTransformBlock, _isTemporaryField, _updateDerivedState } from "./index.ts";
+import { DataObject } from "./types.ts";
 
 mozjexl.addTransform("upper", (val: Array<string> | string) => {
   if (typeof val === "string") return val.toUpperCase();

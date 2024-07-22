@@ -1,7 +1,6 @@
-import mozjexl from "./custom_transforms.ts";
-
-import { DataObject, ErrorObject, Expression } from "../types.ts";
-import { errors } from "../constants/constants.ts";
+import mozjexl from "npm:mozjexl";
+import { DataObject, ErrorObject, Expression } from "./types.ts";
+import { errors } from "./constants.ts";
 
 export const transform = async (
   dataObject: DataObject

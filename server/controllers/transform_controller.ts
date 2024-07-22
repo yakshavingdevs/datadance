@@ -1,4 +1,4 @@
-import { Controller } from "../types.ts";
+import { Controller } from "@scope/core/types";
 import { isValidEmail } from "../utils/data_validation.ts";
 import KvSingleton from "../utils/kv_instance.ts";
 
