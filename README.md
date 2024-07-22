@@ -1,5 +1,5 @@
 # Datadance
-Datadance is a simple data processing server that takes a JSON input, performs simple operations, and returns an output.
+Datadance is a Typescript based library to transform JSON data using a JSON output specification.
 
 # How to run the server
 ```deno task serve```
