@@ -2,5 +2,8 @@
   "workspace": [
     "./core",
     "./server"
-  ]
+  ],
+  "tasks": {
+    "serve": "deno run --watch --allow-net --unstable-kv --allow-read --allow-write ./server/datadance.ts"
+  }
 }
