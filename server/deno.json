@@ -1,8 +1,0 @@
-{
-  "name": "@scope/server",
-  "version": "0.0.1",
-  "exports": "./datadance.ts",
-  "tasks": {
-    "serve": "deno run --watch --allow-net --unstable-kv --allow-read --allow-write ./datadance.ts"
-  }
-}
