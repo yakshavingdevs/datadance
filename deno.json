@@ -4,9 +4,9 @@
     "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
     "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run --unstable -A -",
     "manifest": "deno task cli manifest $(pwd)",
-    "start": "deno run -A --watch=server/static/,server/routes/ --unstable server/dev.ts",
-    "build": "deno run -A --unstable server/dev.ts build",
-    "preview": "deno run -A --unstable server/main.ts",
+    "start": "deno run -A --watch=server/static/,server/routes/ --unstable-kv server/dev.ts",
+    "build": "deno run -A --unstable-kv server/dev.ts build",
+    "preview": "deno run -A --unstable-kv server/main.ts",
     "update": "deno run -A -r https://fresh.deno.dev/update ."
   },
   "lint": { "rules": { "tags": ["fresh", "recommended"] } },
@@ -18,10 +18,9 @@
     "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1",
     "$std/": "https://deno.land/std@0.216.0/",
-    "codemirror": "npm:codemirror@6.0.1",
-    "codemirror/state": "npm:@codemirror/state@6.4.1",
-    "codemirror/view":"npm:@codemirror/view@6.29.0"
+    "mozjexl":"https://esm.sh/mozjexl@1.1.6",
+    "ace-builds":"https://esm.sh/ace-builds@1.35.4/src-noconflict/ace",
+    "ace-builds/src-noconflict/theme-dracula":"https://esm.sh/ace-builds@1.35.4/src-noconflict/theme-dracula"
   },
-  "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
-  "nodeModulesDir": true
+  "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" }
 }

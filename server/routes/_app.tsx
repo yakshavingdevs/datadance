@@ -55,8 +55,9 @@ export default function App({ Component }: PageProps) {
         </header>
 
         <Component />
+        <br></br>
         <div class="container">
-          <footer class="py-3 my-4">
+          <footer>
             <p class="text-center text-body-secondary">© 2024 Datadance</p>
           </footer>
         </div>

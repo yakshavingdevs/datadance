@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "preact/hooks";
-import { basicSetup } from "codemirror";
-import { EditorState } from "codemirror/state";
-import { EditorView } from "codemirror/view";
+import AceEditor from "ace-builds";
+import Dracula from "ace-builds/src-noconflict/theme-dracula";
 import { transform } from "../../../core/transform.ts";
 import { DataObject } from "../../../core/types.ts";
 import { SerialOperations } from "../../../core/types.ts";
@@ -12,42 +11,52 @@ const Playground = () => {
   const [output, setOutput] = useState<string>("");
   const [mergeMethod, setMergeMethod] = useState<string>("overwrite");
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const transformsRef = useRef(null);
+  const transformsRef = useRef<HTMLDivElement>(null);
+  const editorRef = useRef<AceEditor | null>(null);
 
   useEffect(() => {
-    try {
-      if (transformsRef.current) {
-        const dataObject: DataObject = {
-          input: JSON.parse(input),
-          transforms: parseTransforms(transforms),
-          settings: {
-            merge_method: mergeMethod,
-          },
-        };
-        const state = EditorState.create({
-          doc: transforms,
-          extensions: [
-            basicSetup,
-            EditorView.updateListener.of(async (update: any) => {
-              if (update.docChanged) {
-                const newTransforms = update.state.doc.toString();
-                setTransforms(newTransforms);
-                dataObject.transforms = parseTransforms(newTransforms);
-              }
-              setOutput(JSON.stringify(await transform(dataObject), null, 2));
-            }),
-          ],
+    const initializeEditor = () => {
+      const editor = AceEditor.edit(transformsRef.current);
+      editor.setOptions({
+        enableAutoIndent: true,
+        maxLines: 15,
+      });
+      editor.setTheme(Dracula);
+      editor.setValue(transforms, -1);
+  
+      editor.session.on("change", async () => {
+        const newTransforms = editor.getValue();
+        setTransforms(newTransforms);
+        handleTransform(newTransforms);
+      });
+  
+      editorRef.current = editor;
+      return editor;
+    };
+  
+    const handleTransform = (transforms: string) => {
+      const dataObject: DataObject = {
+        input: JSON.parse(input),
+        transforms: parseTransforms(transforms),
+        settings: {
+          merge_method: mergeMethod,
+        },
+      };
+  
+      transform(dataObject)
+        .then((transformedOutput) => {
+          setOutput(JSON.stringify(transformedOutput, null, 2));
+        })
+        .catch((error) => {
+          setErrorMessage(`Invalid Transforms : ${error}`);
         });
-
-        const view = new EditorView({
-          state,
-          parent: transformsRef.current,
-        });
-
-        return () => view.destroy();
-      }
-    } catch (error) {
-      console.error(error);
+    };
+  
+    if (transformsRef.current) {
+      const editor = initializeEditor();
+      handleTransform(transforms);
+  
+      return () => editor.destroy();
     }
   }, [input, mergeMethod]);
 
@@ -134,13 +143,13 @@ const Playground = () => {
                 <textarea
                   class="form-control"
                   value={input}
-                  onKeyUp={handleInputChange}
+                  onInput={handleInputChange}
                   id="inputJson"
                   style={{
                     overflow: "scroll",
                     resize: "none",
                     maxHeight: "50vh",
-                    height: "40vh",
+                    height: "30vh",
                   }}
                 />
                 <label for="inputJson">Input JSON</label>
@@ -159,7 +168,7 @@ const Playground = () => {
                   name="merge_method"
                   onChange={handleMergeMethodChange}
                   checked={mergeMethod === "overwrite"}
-                ></input>
+                />
                 <label class="form-check-label" for="overwrite">
                   Overwrite
                 </label>
@@ -173,7 +182,7 @@ const Playground = () => {
                   name="merge_method"
                   onChange={handleMergeMethodChange}
                   checked={mergeMethod === "transforms_only"}
-                ></input>
+                />
                 <label class="form-check-label" for="transforms_only">
                   Transforms only
                 </label>
@@ -187,13 +196,13 @@ const Playground = () => {
                   name="merge_method"
                   onChange={handleMergeMethodChange}
                   checked={mergeMethod === "preserve"}
-                ></input>
+                />
                 <label class="form-check-label" for="preserve">
                   Preserve
                 </label>
               </div>
             </div>
-            <br></br>
+            <br />
             <div class="flex-grow-1">
               <div class="card h-100">
                 <div class="card-header">Transforms</div>
