@@ -1,4 +1,4 @@
-import mozjexl from "npm:mozjexl";
+import mozjexl from "./custom_transforms.ts";
 import { DataObject, ErrorObject, Expression } from "./types.ts";
 import { errors } from "./constants.ts";
 
