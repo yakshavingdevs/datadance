@@ -1,5 +1,9 @@
 {
   "tasks": {
-    "serve": "deno run --watch --allow-net --unstable-kv --allow-read --allow-write ./server/datadance.ts"
+    "serve": "deno run --watch --allow-net --unstable-kv --allow-read --allow-write ./server/datadance.ts",
+    "compile": "deno compile --output ./bin/datadance ./cli/index.ts"
+  },
+  "imports": {
+    "@std/cli": "jsr:@std/cli@^1.0.1"
   }
 }

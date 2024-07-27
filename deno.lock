@@ -2,14 +2,30 @@
   "version": "3",
   "packages": {
     "specifiers": {
+      "jsr:@std/cli@^1.0.1": "jsr:@std/cli@1.0.1",
+      "npm:figlet": "npm:figlet@1.7.0",
       "npm:mozjexl": "npm:mozjexl@1.1.6"
     },
+    "jsr": {
+      "@std/cli@1.0.1": {
+        "integrity": "d0661fba13b30e3c0121646589fa9beeeabe92482c6b04679ea0e7ec683d97f2"
+      }
+    },
     "npm": {
+      "figlet@1.7.0": {
+        "integrity": "sha512-gO8l3wvqo0V7wEFLXPbkX83b7MVjRrk1oRLfYlZXol8nEpb/ON9pcKLI4qpBv5YtOTfrINtqb7b40iYY2FTWFg==",
+        "dependencies": {}
+      },
       "mozjexl@1.1.6": {
         "integrity": "sha512-34nvJEO7yLjMxooe0qfVUfBvotz270UFuhX0MmTM/0tR5HPJpjTYQLE7IyNag7EF6HPNmnBu0Y6kKoH6MvH8Lw==",
         "dependencies": {}
       }
     }
   },
-  "remote": {}
+  "remote": {},
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/cli@^1.0.1"
+    ]
+  }
 }
