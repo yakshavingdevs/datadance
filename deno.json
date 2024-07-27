@@ -20,8 +20,7 @@
     "$std/": "https://deno.land/std@0.216.0/",
     "codemirror": "npm:codemirror@6.0.1",
     "codemirror/state": "npm:@codemirror/state@6.4.1",
-    "codemirror/view": "npm:@codemirror/view@6.29.0",
-    "react-bootstrap":"npm:react-bootstrap@2.10.4"
+    "codemirror/view": "npm:@codemirror/view@6.29.0"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" }
 }

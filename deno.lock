@@ -730,8 +730,7 @@
     "dependencies": [
       "npm:@codemirror/state@6.4.1",
       "npm:@codemirror/view@6.29.0",
-      "npm:codemirror@6.0.1",
-      "npm:react-bootstrap@2.10.4"
+      "npm:codemirror@6.0.1"
     ]
   }
 }
