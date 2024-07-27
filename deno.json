@@ -1,12 +1,12 @@
 {
-  "lock": true,
+  "lock": false,
   "tasks": {
     "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
     "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run --unstable -A -",
     "manifest": "deno task cli manifest $(pwd)",
     "start": "deno run -A --watch=server/static/,server/routes/ --unstable-kv server/dev.ts",
-    "build": "deno run -A dev.ts build",
-    "preview": "deno run -A --unstable-kv main.ts",
+    "build": "deno run -A --unstable-kv server/dev.ts build",
+    "preview": "deno run -A --unstable-kv server/main.ts",
     "update": "deno run -A -r https://fresh.deno.dev/update ."
   },
   "lint": { "rules": { "tags": ["fresh", "recommended"] } },
@@ -23,5 +23,5 @@
     "codemirror/view": "npm:@codemirror/view@6.29.0"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
-  "loader": "native"
+  "nodeModulesDir": true
 }

@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "preact/hooks";
-import { basicSetup, EditorView } from "codemirror";
+import { basicSetup } from "codemirror";
+import { EditorView } from "codemirror/view";
 import { EditorState } from "codemirror/state";
 import { transform } from "../../../core/transform.ts";
 import { DataObject } from "../../../core/types.ts";
 import { SerialOperations } from "../../../core/types.ts";
-import { serialize } from "$std/testing/snapshot.ts";
 
 const Playground = () => {
   const [input, setInput] = useState<string>("{}");
