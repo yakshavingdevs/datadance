@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { basicSetup } from "codemirror";
-import { EditorView } from "codemirror/view";
 import { EditorState } from "codemirror/state";
+import { EditorView } from "codemirror/view";
 import { transform } from "../../../core/transform.ts";
 import { DataObject } from "../../../core/types.ts";
 import { SerialOperations } from "../../../core/types.ts";
@@ -15,35 +15,39 @@ const Playground = () => {
   const transformsRef = useRef(null);
 
   useEffect(() => {
-    if (transformsRef.current) {
-      const dataObject: DataObject = {
-        input: JSON.parse(input),
-        transforms: parseTransforms(transforms),
-        settings: {
-          merge_method: mergeMethod,
-        },
-      };
-      const state = EditorState.create({
-        doc: transforms,
-        extensions: [
-          basicSetup,
-          EditorView.updateListener.of(async (update: any) => {
-            if (update.docChanged) {
-              const newTransforms = update.state.doc.toString();
-              setTransforms(newTransforms);
-              dataObject.transforms = parseTransforms(newTransforms);
-            }
-            setOutput(JSON.stringify(await transform(dataObject), null, 2));
-          }),
-        ],
-      });
+    try {
+      if (transformsRef.current) {
+        const dataObject: DataObject = {
+          input: JSON.parse(input),
+          transforms: parseTransforms(transforms),
+          settings: {
+            merge_method: mergeMethod,
+          },
+        };
+        const state = EditorState.create({
+          doc: transforms,
+          extensions: [
+            basicSetup,
+            EditorView.updateListener.of(async (update: any) => {
+              if (update.docChanged) {
+                const newTransforms = update.state.doc.toString();
+                setTransforms(newTransforms);
+                dataObject.transforms = parseTransforms(newTransforms);
+              }
+              setOutput(JSON.stringify(await transform(dataObject), null, 2));
+            }),
+          ],
+        });
 
-      const view = new EditorView({
-        state,
-        parent: transformsRef.current,
-      });
+        const view = new EditorView({
+          state,
+          parent: transformsRef.current,
+        });
 
-      return () => view.destroy();
+        return () => view.destroy();
+      }
+    } catch (error) {
+      console.error(error);
     }
   }, [input, mergeMethod]);
 
