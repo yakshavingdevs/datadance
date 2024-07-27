@@ -146,3 +146,8 @@ Output:
   "lastEx": 7
 }
 ```
+
+## Example using the CLI
+```
+./bin/datadance -i '{"hello": "world"}' -t '[{"also": "\"hello \" + input.hello"}]' -s '{"merge_method": "overwrite"}'
+```
