@@ -1,5 +1,3 @@
-import { Decoration } from "../../../../../.cache/deno/npm/registry.npmjs.org/@codemirror/view/6.29.0/dist/index.d.ts";
-
 export default function Home() {
   return (
     <div>
