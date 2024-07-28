@@ -1,4 +1,4 @@
-import mozjexl from "npm:mozjexl";
+import mozjexl from "mozjexl";
 import { transform, _isSubTransformBlock, _isTemporaryField, _updateDerivedState } from "./transform.ts";
 import { DataObject } from "./types.ts";
 

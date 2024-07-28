@@ -1,9 +1,29 @@
 {
+  "lock": true,
   "tasks": {
-    "serve": "deno run --watch --allow-net --unstable-kv --allow-read --allow-write ./server/datadance.ts",
+    "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
+    "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run --unstable -A -",
+    "manifest": "deno task cli manifest $(pwd)",
+    "start": "deno run -A --watch=server/static/,server/routes/ --unstable-kv server/dev.ts",
+    "build": "deno run -A --unstable-kv server/dev.ts build",
+    "preview": "deno run -A --unstable-kv server/main.ts",
+    "update": "deno run -A -r https://fresh.deno.dev/update .",
     "compile": "deno compile --output ./bin/datadance ./cli/index.ts"
   },
+  "lint": { "rules": { "tags": ["fresh", "recommended"] } },
+  "exclude": ["**/_fresh/*"],
   "imports": {
+    "$fresh/": "https://deno.land/x/fresh@1.6.8/",
+    "preact": "https://esm.sh/preact@10.19.6",
+    "preact/": "https://esm.sh/preact@10.19.6/",
+    "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
+    "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1",
+    "$std/": "https://deno.land/std@0.216.0/",
+    "mozjexl":"https://esm.sh/mozjexl@1.1.6",
+    "ace-builds":"https://esm.sh/ace-builds@1.35.4/src-noconflict/ace",
+    "ace-builds/src-noconflict/theme-dracula":"https://esm.sh/ace-builds@1.35.4/src-noconflict/theme-dracula",
+    "ace-builds/src-noconflict/ext-language_tools":"https://esm.sh/ace-builds@1.35.4/src-noconflict/ext-language_tools",
     "@std/cli": "jsr:@std/cli@^1.0.1"
-  }
+  },
+  "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" }
 }

@@ -1,0 +1,24 @@
+/* Custom scrollbar */
+/* Width */
+::-webkit-scrollbar,
+::-webkit-scrollbar:horizontal {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track:horizontal {
+  background: black;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:horizontal {
+  background: whitesmoke;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: darkslategray;
+}
+/* Custom scrollbar */
