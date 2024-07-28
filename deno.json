@@ -7,7 +7,8 @@
     "start": "deno run -A --watch=server/static/,server/routes/ --unstable-kv server/dev.ts",
     "build": "deno run -A --unstable-kv server/dev.ts build",
     "preview": "deno run -A --unstable-kv server/main.ts",
-    "update": "deno run -A -r https://fresh.deno.dev/update ."
+    "update": "deno run -A -r https://fresh.deno.dev/update .",
+    "compile": "deno compile --output ./bin/datadance ./cli/index.ts"
   },
   "lint": { "rules": { "tags": ["fresh", "recommended"] } },
   "exclude": ["**/_fresh/*"],
@@ -22,8 +23,7 @@
     "ace-builds":"https://esm.sh/ace-builds@1.35.4/src-noconflict/ace",
     "ace-builds/src-noconflict/theme-dracula":"https://esm.sh/ace-builds@1.35.4/src-noconflict/theme-dracula",
     "ace-builds/src-noconflict/ext-language_tools":"https://esm.sh/ace-builds@1.35.4/src-noconflict/ext-language_tools",
-    "prismjs":"https://esm.sh/prismjs@1.29.0",
-    "prismjs/json":"https://esm.sh/prismjs@1.29.0/components/prism-json"
+    "@std/cli": "jsr:@std/cli@^1.0.1"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" }
 }
