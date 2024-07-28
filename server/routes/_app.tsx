@@ -44,7 +44,7 @@ export default function App({ Component }: PageProps) {
                     </a>
                   </li>
                   <li>
-                    <a href="/docs" class="nav-link">
+                    <a href="https://docs.datadance.app" class="nav-link">
                       Docs
                     </a>
                   </li>
@@ -56,11 +56,15 @@ export default function App({ Component }: PageProps) {
 
         <Component />
         <br></br>
-        <div class="container">
-          <footer>
-            <p class="text-center text-body-secondary">© 2024 Datadance, <a href="https://yakshavingdevs.org">Yak Shaving Devs</a></p>
-          </footer>
-        </div>
+
+        <footer class="container">
+            <p class="text-center text-body-secondary">
+              © 2024 Datadance,{" "}
+              <a href="https://yakshavingdevs.org">Yak Shaving Devs</a>
+            </p>
+        </footer>
+        <br></br>
+
         <script
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
           integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"

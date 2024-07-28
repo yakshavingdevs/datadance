@@ -2,17 +2,41 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import AceEditor from "ace-builds";
 import ace from "ace-builds";
 import Dracula from "ace-builds/src-noconflict/theme-dracula";
-import 'ace-builds/src-noconflict/ext-language_tools';
+import "ace-builds/src-noconflict/ext-language_tools";
 import { transform } from "../../../core/transform.ts";
 import { DataObject } from "../../../core/types.ts";
 import { SerialOperations } from "../../../core/types.ts";
 
-ace.config.set('basePath', 'https://esm.sh/ace-builds@1.35.4/src-noconflict');
-ace.config.setModuleUrl('ace/mode/yaml', 'https://cdn.jsdelivr.net/npm/ace-builds@1.4.12/src-noconflict/mode-yaml.js');
+ace.config.set("basePath", "https://esm.sh/ace-builds@1.35.4/src-noconflict");
+ace.config.setModuleUrl(
+  "ace/mode/yaml",
+  "https://cdn.jsdelivr.net/npm/ace-builds@1.4.12/src-noconflict/mode-yaml.js"
+);
 
 const Playground = () => {
-  const [input, setInput] = useState<string>("{}");
-  const [transforms, setTransforms] = useState<string>("");
+  const [input, setInput] = useState<string>(`{
+    "name": {
+        "first": " malory",
+        "last": "Archer"
+    },
+    "exes": [
+        " Nikolai Jakov ",
+        "Len Trexler",
+        "Burt Reynolds"
+    ],
+    "lastEx": 2
+}`);
+  const [transforms, setTransforms] = useState<string>(
+    `lastEx : derived.lastEx + 5
+modified : derived.lastEx
+original : input.lastEx
+nameObject :
+  name : input.name.first | trim | capitalize + ' ' + input.name.last
+  age : 25
+  ex1 : '=>' + input.exes[0] | rtrim 
+isMinor : derived.nameObject.age > 18
+nameLength : derived.nameObject.name | length
+nameUpper : derived.nameObject.name | upper`);
   const [output, setOutput] = useState<string>("");
   const [mergeMethod, setMergeMethod] = useState<string>("overwrite");
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -27,11 +51,11 @@ const Playground = () => {
         maxLines: 15,
         enableBasicAutocompletion: true,
         enableLiveAutocompletion: true,
-        enableSnippets: true
+        enableSnippets: true,
       });
       editor.setTheme(Dracula);
       editor.setValue(transforms, -1);
-      ace.config.loadModule('ace/mode/yaml', (yamlMode: any) => {
+      ace.config.loadModule("ace/mode/yaml", (yamlMode: any) => {
         editor.session.setMode(new yamlMode.Mode());
       });
       editor.session.on("change", async () => {
