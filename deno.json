@@ -19,10 +19,10 @@
     "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1",
     "$std/": "https://deno.land/std@0.216.0/",
-    "mozjexl":"https://esm.sh/mozjexl@1.1.6",
-    "ace-builds":"https://esm.sh/ace-builds@1.35.4/src-noconflict/ace",
-    "ace-builds/src-noconflict/theme-dracula":"https://esm.sh/ace-builds@1.35.4/src-noconflict/theme-dracula",
-    "ace-builds/src-noconflict/ext-language_tools":"https://esm.sh/ace-builds@1.35.4/src-noconflict/ext-language_tools",
+    "mozjexl": "https://esm.sh/mozjexl@1.1.6",
+    "ace-builds": "https://esm.sh/ace-builds@1.35.4/src-noconflict/ace",
+    "ace-builds/src-noconflict/theme-dracula": "https://esm.sh/ace-builds@1.35.4/src-noconflict/theme-dracula",
+    "ace-builds/src-noconflict/ext-language_tools": "https://esm.sh/ace-builds@1.35.4/src-noconflict/ext-language_tools",
     "@std/cli": "jsr:@std/cli@^1.0.1"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" }

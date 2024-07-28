@@ -1,14 +1,10 @@
 {
   "version": "3",
-  "remote": {
-    "https://esm.sh/preact@10.19.6/jsx-runtime": "f4c9e5f72ef18435eab846ae02e315a63da724f64fb08d806d2ddeaf08d99bd8",
-    "https://esm.sh/stable/preact@10.19.6/denonext/jsx-runtime.js": "97e9eeb40443de53a8cb3b70f264d04db2bbfc5c2298fdb15d1c471283ccd6aa",
-    "https://esm.sh/stable/preact@10.19.6/denonext/preact.mjs": "68491395d287895f4d697e403ded5b0ebb8fed0494f9e870c422bc017e5e52f5"
-  },
   "packages": {
     "specifiers": {
       "jsr:@std/cli@^1.0.1": "jsr:@std/cli@1.0.1",
       "npm:figlet": "npm:figlet@1.7.0",
+      "npm:figlet@1.7.0": "npm:figlet@1.7.0",
       "npm:mozjexl": "npm:mozjexl@1.1.6"
     },
     "jsr": {
@@ -26,6 +22,13 @@
         "dependencies": {}
       }
     }
+  },
+  "remote": {
+    "https://esm.sh/mozjexl@1.1.6": "51b0576bf2ca4b56e29227652d67f56f7d721debc24db1c59b34c29a9708c1fd",
+    "https://esm.sh/preact@10.19.6/jsx-runtime": "f4c9e5f72ef18435eab846ae02e315a63da724f64fb08d806d2ddeaf08d99bd8",
+    "https://esm.sh/stable/preact@10.19.6/denonext/jsx-runtime.js": "97e9eeb40443de53a8cb3b70f264d04db2bbfc5c2298fdb15d1c471283ccd6aa",
+    "https://esm.sh/stable/preact@10.19.6/denonext/preact.mjs": "68491395d287895f4d697e403ded5b0ebb8fed0494f9e870c422bc017e5e52f5",
+    "https://esm.sh/v135/mozjexl@1.1.6/denonext/mozjexl.mjs": "45fc5c7c6e9632d5ca00049d02aeeb84042f9e71c0fb2e5190ada61baa94c368"
   },
   "workspace": {
     "dependencies": [

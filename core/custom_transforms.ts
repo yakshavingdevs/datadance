@@ -1,5 +1,10 @@
-import mozjexl from "mozjexl";
-import { transform, _isSubTransformBlock, _isTemporaryField, _updateDerivedState } from "./transform.ts";
+import mozjexl from "npm:mozjexl";
+import {
+  _isSubTransformBlock,
+  _isTemporaryField,
+  _updateDerivedState,
+  transform,
+} from "./transform.ts";
 import { DataObject } from "./types.ts";
 
 mozjexl.addTransform("upper", (val: Array<string> | string) => {
@@ -54,4 +59,166 @@ mozjexl.addTransform("pluck", (val: Array<any>, properties: Array<String>) => {
   }
   return result;
 });
+
+mozjexl.addTransform("lower", (val: Array<string> | string) => {
+  if (typeof val === "string") return val.toLowerCase();
+  const result: Array<string> = [];
+  val.forEach((record) => {
+    if (typeof record === "string") {
+      result.push(record.toLowerCase());
+    } else {
+      result.push(record);
+    }
+  });
+  return result;
+});
+
+mozjexl.addTransform("capitalize", (val: Array<string> | string) => {
+  if (typeof val === "string") return val[0].toUpperCase() + val.slice(1);
+  const result: Array<string> = [];
+  val.forEach((record) => {
+    if (typeof record === "string") {
+      result.push(record[0].toUpperCase() + record.slice(1));
+    } else {
+      result.push(record);
+    }
+  });
+  return result;
+});
+
+mozjexl.addTransform("swapCase", (val: Array<string> | string) => {
+  if (typeof val === "string") {
+    return val.split("").map(function (c) {
+      return c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase();
+    }).join("");
+  }
+  const result: Array<string> = [];
+  val.forEach((record) => {
+    if (typeof record === "string") {
+      result.push(
+        record.split("").map(function (c) {
+          return c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase();
+        }).join(""),
+      );
+    } else {
+      result.push(record);
+    }
+  });
+  return result;
+});
+
+mozjexl.addTransform("count", (val: Array<string> | string, char: string) => {
+  if (typeof val === "string") return (val.split(char)).length - 1;
+  const result: Array<number> = [];
+  val.forEach((record) => {
+    record = record.toString();
+    if (typeof record === "string") {
+      result.push((record.split(char)).length - 1);
+    } else {
+      result.push(record);
+    }
+  });
+  return result;
+});
+
+mozjexl.addTransform(
+  "startsWith",
+  (val: Array<string> | string, char: string) => {
+    if (typeof val === "string") return (val.startsWith(char));
+    const result: Array<boolean> = [];
+    val.forEach((record) => {
+      record = record.toString();
+      if (typeof record === "string") {
+        result.push(record.startsWith(char));
+      } else {
+        result.push(record);
+      }
+    });
+    return result;
+  },
+);
+
+mozjexl.addTransform(
+  "endsWith",
+  (val: Array<string> | string, char: string) => {
+    if (typeof val === "string") return (val.endsWith(char));
+    const result: Array<boolean> = [];
+    val.forEach((record) => {
+      record = record.toString();
+      if (typeof record === "string") {
+        result.push(record.endsWith(char));
+      } else {
+        result.push(record);
+      }
+    });
+    return result;
+  },
+);
+
+mozjexl.addTransform("indexOf", (val: Array<string> | string, char: string) => {
+  if (typeof val === "string") return (val.indexOf(char));
+  const result: Array<number> = [];
+  val.forEach((record) => {
+    record = record.toString();
+    if (typeof record === "string") {
+      result.push(record.indexOf(char));
+    } else {
+      result.push(record);
+    }
+  });
+  return result;
+});
+
+mozjexl.addTransform("trim", (val: Array<string> | string) => {
+  if (typeof val === "string") return val.trim();
+  const result: Array<string> = [];
+  val.forEach((record) => {
+    if (typeof record === "string") {
+      result.push(record.trim());
+    } else {
+      result.push(record);
+    }
+  });
+  return result;
+});
+
+mozjexl.addTransform("ltrim", (val: Array<string> | string) => {
+  if (typeof val === "string") return val.trimStart();
+  const result: Array<string> = [];
+  val.forEach((record) => {
+    if (typeof record === "string") {
+      result.push(record.trimStart());
+    } else {
+      result.push(record);
+    }
+  });
+  return result;
+});
+
+mozjexl.addTransform("rtrim", (val: Array<string> | string) => {
+  if (typeof val === "string") return val.trimEnd();
+  const result: Array<string> = [];
+  val.forEach((record) => {
+    if (typeof record === "string") {
+      result.push(record.trimEnd());
+    } else {
+      result.push(record);
+    }
+  });
+  return result;
+});
+
+mozjexl.addTransform("length", (val: Array<string> | string) => {
+  if (typeof val === "string") return val.length;
+  const result: Array<number> = [];
+  val.forEach((record) => {
+    if (typeof record === "string") {
+      result.push(record.length);
+    } else {
+      result.push(record);
+    }
+  });
+  return result;
+});
+
 export default mozjexl;
