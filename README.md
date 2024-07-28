@@ -1,8 +1,14 @@
 # Datadance
 Datadance is a Typescript based library to transform JSON data using a JSON output specification.
 
+Checkout the playground here : [Datadance Playground](https://datadance.app/design/build)
+
 # How to run the server
-```deno task serve```
+
+```bash
+cd server
+deno task start
+```
 
 # Transforms Expression Language Reference
 
@@ -148,6 +154,7 @@ Output:
 ```
 
 ## Example using the CLI
-```
+```bash
+deno task compile # builds the binary
 ./bin/datadance -i '{"hello": "world"}' -t '[{"also": "\"hello \" + input.hello"}]' -s '{"merge_method": "overwrite"}'
 ```
