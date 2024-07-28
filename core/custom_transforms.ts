@@ -1,4 +1,4 @@
-import mozjexl from "npm:mozjexl";
+import mozjexl from "mozjexl";
 import {
   _isSubTransformBlock,
   _isTemporaryField,
