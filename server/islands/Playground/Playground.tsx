@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import AceEditor from "ace-builds";
+import ace from "ace-builds";
 import Dracula from "ace-builds/src-noconflict/theme-dracula";
+import 'ace-builds/src-noconflict/ext-language_tools';
 import { transform } from "../../../core/transform.ts";
 import { DataObject } from "../../../core/types.ts";
 import { SerialOperations } from "../../../core/types.ts";
+
+ace.config.set('basePath', 'https://esm.sh/ace-builds@1.35.4/src-noconflict');
+ace.config.setModuleUrl('ace/mode/yaml', 'https://cdn.jsdelivr.net/npm/ace-builds@1.4.12/src-noconflict/mode-yaml.js');
 
 const Playground = () => {
   const [input, setInput] = useState<string>("{}");
@@ -20,20 +25,25 @@ const Playground = () => {
       editor.setOptions({
         enableAutoIndent: true,
         maxLines: 15,
+        enableBasicAutocompletion: true,
+        enableLiveAutocompletion: true,
+        enableSnippets: true
       });
       editor.setTheme(Dracula);
       editor.setValue(transforms, -1);
-  
+      ace.config.loadModule('ace/mode/yaml', (yamlMode: any) => {
+        editor.session.setMode(new yamlMode.Mode());
+      });
       editor.session.on("change", async () => {
         const newTransforms = editor.getValue();
         setTransforms(newTransforms);
         handleTransform(newTransforms);
       });
-  
+
       editorRef.current = editor;
       return editor;
     };
-  
+
     const handleTransform = (transforms: string) => {
       const dataObject: DataObject = {
         input: JSON.parse(input),
@@ -42,7 +52,7 @@ const Playground = () => {
           merge_method: mergeMethod,
         },
       };
-  
+
       transform(dataObject)
         .then((transformedOutput) => {
           setOutput(JSON.stringify(transformedOutput, null, 2));
@@ -51,11 +61,11 @@ const Playground = () => {
           setErrorMessage(`Invalid Transforms : ${error}`);
         });
     };
-  
+
     if (transformsRef.current) {
       const editor = initializeEditor();
       handleTransform(transforms);
-  
+
       return () => editor.destroy();
     }
   }, [input, mergeMethod]);

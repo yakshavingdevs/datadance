@@ -58,7 +58,7 @@ export default function App({ Component }: PageProps) {
         <br></br>
         <div class="container">
           <footer>
-            <p class="text-center text-body-secondary">© 2024 Datadance</p>
+            <p class="text-center text-body-secondary">© 2024 Datadance, <a href="https://yakshavingdevs.org">Yak Shaving Devs</a></p>
           </footer>
         </div>
         <script

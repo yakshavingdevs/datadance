@@ -1,5 +1,5 @@
 {
-  "lock": false,
+  "lock": true,
   "tasks": {
     "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
     "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run --unstable -A -",
@@ -20,7 +20,10 @@
     "$std/": "https://deno.land/std@0.216.0/",
     "mozjexl":"https://esm.sh/mozjexl@1.1.6",
     "ace-builds":"https://esm.sh/ace-builds@1.35.4/src-noconflict/ace",
-    "ace-builds/src-noconflict/theme-dracula":"https://esm.sh/ace-builds@1.35.4/src-noconflict/theme-dracula"
+    "ace-builds/src-noconflict/theme-dracula":"https://esm.sh/ace-builds@1.35.4/src-noconflict/theme-dracula",
+    "ace-builds/src-noconflict/ext-language_tools":"https://esm.sh/ace-builds@1.35.4/src-noconflict/ext-language_tools",
+    "prismjs":"https://esm.sh/prismjs@1.29.0",
+    "prismjs/json":"https://esm.sh/prismjs@1.29.0/components/prism-json"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" }
 }
