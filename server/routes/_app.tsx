@@ -12,7 +12,6 @@ export default function App({ Component }: PageProps) {
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
-          crossorigin
         ></link>
         <link
           href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap"
@@ -34,6 +33,7 @@ export default function App({ Component }: PageProps) {
                   href="/"
                   class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-decoration-none datadance-title"
                 >
+                  <img src="/logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"></img>
                   Datadance
                 </a>
 
@@ -41,6 +41,11 @@ export default function App({ Component }: PageProps) {
                   <li>
                     <a href="/design/build" class="nav-link">
                       Playground
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/api/reference" class="nav-link">
+                      API Reference
                     </a>
                   </li>
                   <li>
@@ -55,16 +60,13 @@ export default function App({ Component }: PageProps) {
         </header>
 
         <Component />
-        <br></br>
-
+        <hr></hr>
         <footer class="container">
             <p class="text-center text-body-secondary">
-              © 2024 Datadance,{" "}
-              <a href="https://yakshavingdevs.org">Yak Shaving Devs</a>
+              © 2024 Datadance,&nbsp;
+              <a href="https://yakshavingdevs.org" style={{"color":"white","textDecoration":"none"}}>Yak Shaving Devs</a>
             </p>
         </footer>
-        <br></br>
-
         <script
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
           integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"

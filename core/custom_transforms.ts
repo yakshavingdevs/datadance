@@ -31,7 +31,7 @@ mozjexl.addTransform(
     const forEachResult: Array<any> = [];
     for (let idx = 0; idx < val.length; idx++) {
       const dataObject: DataObject = {
-        input: { ...context, item: val[idx], _idx: idx },
+        input: { ...context, item: val[idx], _idx: idx, _$func: transforms },
         transforms: transforms,
         settings: {
           merge_method: "transforms_only",
@@ -100,20 +100,6 @@ mozjexl.addTransform("swapCase", (val: Array<string> | string) => {
           return c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase();
         }).join(""),
       );
-    } else {
-      result.push(record);
-    }
-  });
-  return result;
-});
-
-mozjexl.addTransform("count", (val: Array<string> | string, char: string) => {
-  if (typeof val === "string") return (val.split(char)).length - 1;
-  const result: Array<number> = [];
-  val.forEach((record) => {
-    record = record.toString();
-    if (typeof record === "string") {
-      result.push((record.split(char)).length - 1);
     } else {
       result.push(record);
     }

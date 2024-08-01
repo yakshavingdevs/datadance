@@ -1,0 +1,15 @@
+.string {
+  color: #ffc107;
+}
+.number {
+  color: violet;
+}
+.boolean {
+  color: lightsteelblue;
+}
+.null {
+  color: magenta;
+}
+.key {
+  color: tomato;
+}

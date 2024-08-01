@@ -6,7 +6,10 @@ import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $api_deleteAllTransformsByEmail from "./routes/api/deleteAllTransformsByEmail.tsx";
 import * as $api_deleteTransform from "./routes/api/deleteTransform.tsx";
+import * as $api_errors from "./routes/api/errors.tsx";
+import * as $api_health from "./routes/api/health.tsx";
 import * as $api_process from "./routes/api/process.tsx";
+import * as $api_reference from "./routes/api/reference.tsx";
 import * as $api_retrieveAllTransformsByEmail from "./routes/api/retrieveAllTransformsByEmail.tsx";
 import * as $api_retrieveTransform from "./routes/api/retrieveTransform.tsx";
 import * as $api_run from "./routes/api/run.tsx";
@@ -23,7 +26,10 @@ const manifest = {
     "./routes/api/deleteAllTransformsByEmail.tsx":
       $api_deleteAllTransformsByEmail,
     "./routes/api/deleteTransform.tsx": $api_deleteTransform,
+    "./routes/api/errors.tsx": $api_errors,
+    "./routes/api/health.tsx": $api_health,
     "./routes/api/process.tsx": $api_process,
+    "./routes/api/reference.tsx": $api_reference,
     "./routes/api/retrieveAllTransformsByEmail.tsx":
       $api_retrieveAllTransformsByEmail,
     "./routes/api/retrieveTransform.tsx": $api_retrieveTransform,
