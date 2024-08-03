@@ -771,7 +771,7 @@ export default function APIReferencePage() {
                 <div>
                   <p>
                     The <code>/api/health</code> endpoint tells if the service
-                    is UP annd running or not.
+                    is UP and running or not.
                   </p>
                 </div>
                 <div>

@@ -36,7 +36,7 @@ nameObject :
   name : derived.nameObject.name | capitalize
   age : 25
   ex1 : '=>' + input.exes[0] | rtrim 
-isMinor : derived.nameObject.age > 18
+isMinor : derived.nameObject.age < 18
 nameLength : derived.nameObject.name | length
 nameUpper : derived.nameObject.name | upper`
   );
