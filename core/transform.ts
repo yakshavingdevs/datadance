@@ -1,6 +1,40 @@
+/********************************************************/
+
+/*
+  Datadance : A simple JSON transformation package
+  MIT License
+
+  Copyright (c) 2024-Present Sri Pravan Paturi, Chiranjeevi Karthik Kuruganti, Vodela Saiswapnil Gupta
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+
+  Please refer the license here : https://github.com/yakshavingdevs/datadance/blob/main/LICENSE
+*/
+
+/********************************************************/
+
+// We need the mozjexl object along with custom transforms like upper, forEach...etc
 import mozjexl from "./custom_transforms.ts";
 import { DataObject, ErrorObject, Expression } from "./types.ts";
 import { errors } from "./constants.ts";
+
+/********************************************************/
 
 export const transform = async (
   dataObject: DataObject
@@ -21,13 +55,21 @@ export const transform = async (
 
     const transformedOutput: Record<string, any> = {};
 
+    // The dataObjectClone is used in making the nested sub transformations work
     const dataObjectClone = structuredClone(dataObject);
+    // From the sub transformations, We would ony need the touched fields always
+    // Otherwise sanitizing the sub transformations output would be tedious task
     dataObjectClone.settings.merge_method = "transforms_only";
     dataObjectClone.derived = derived;
     dataObjectClone.pathTrace = pathTrace;
     dataObjectClone.isSubTransformation = isSubTransformation;
 
     for (const fieldTransformObject of transforms) {
+      // For the transformations to be evaluated in order, we restrict the transforms to be 
+      // a list of JSON Objects, where each object has only one key.
+      // And value can be a simple string expressions or another list of JSON Objects
+      // with each object containing only one key. This helps in evaluating simple and as
+      // well as deep-nested transformations easy.
       if (Object.keys(fieldTransformObject).length !== 1) {
         console.error(
           `%cerror-101 : In the transformation : --> ${JSON.stringify(
@@ -44,12 +86,15 @@ export const transform = async (
 
       try {
         if (_isSubTransformBlock(field)) {
+          // Sub transform block i.e fields starting with _$ never gets evaluated,
+          // But only gets added to the derived state for referencing it.
           dataObjectClone.derived[field] = expression;
           continue;
         }
         if (Array.isArray(expression)) {
+          // When the expression is a nested transformation
           let intermediateResultObject = {};
-          dataObjectClone.pathTrace.push(field);
+          dataObjectClone.pathTrace.push(field); // adding parent field to pathTrace
           dataObjectClone.isSubTransformation = true;
           for (
             let subTransformIndex = 0;
@@ -60,7 +105,7 @@ export const transform = async (
             const subFieldName = Object.keys(expression[subTransformIndex])[0];
             const subResultObject = await transform(dataObjectClone);
 
-            dataObjectClone.pathTrace.push(subFieldName);
+            dataObjectClone.pathTrace.push(subFieldName); // adding sub field to pathTrace
             let subResult: Record<string, any> = {};
             Object.keys(subResultObject).some((key) => {
               if (errors.includes(key)) {
@@ -75,17 +120,22 @@ export const transform = async (
               ...intermediateResultObject,
               ...subResult,
             };
+            // Updating the derived state is all about placing the computed value at
+            // right place within the derived state to be able to use it immediately.
             _updateDerivedState(dataObjectClone.derived, subResult, pathTrace);
 
-            dataObjectClone.pathTrace.pop();
+            dataObjectClone.pathTrace.pop(); // removing sub field from pathTrace
           }
 
           if (!_isTemporaryField(field)) {
+            // Temporary fields never make their way into transformed output JSON.
+            // In other sense, Temporary fields help in selection and deselection of fields.
             transformedOutput[field] = intermediateResultObject;
           }
-          dataObjectClone.pathTrace.pop();
+          dataObjectClone.pathTrace.pop(); // removing parent field from pathTrace
           dataObjectClone.isSubTransformation = false;
         } else {
+          // When the expression is a simple string
           let result = await mozjexl.eval(expression, { input, derived });
           if (result === undefined || result === null) {
             result = {
@@ -101,6 +151,10 @@ export const transform = async (
           }
 
           if (!_isTemporaryField(field)) transformedOutput[field] = result;
+          // If inside a sub transformation, there is no need to update derived state
+          // of parent with updates made within the sub transformation.
+          // As it is already being handled by _updateDerivedState() already,
+          // once the recursion is complete.
           if (!isSubTransformation) derived[field] = result;
         }
       } catch (error) {
@@ -126,6 +180,8 @@ export const transform = async (
   }
 };
 
+/********************************************************/
+
 export const _updateDerivedState = (
   targetObject: Record<string, any>,
   sourceObject: Record<string, any>,
@@ -144,6 +200,8 @@ export const _updateDerivedState = (
   });
 };
 
+/********************************************************/
+
 export const _isTemporaryField = (fieldName: string) => {
   if (fieldName.startsWith("_")) {
     return true;
@@ -151,9 +209,13 @@ export const _isTemporaryField = (fieldName: string) => {
   return false;
 };
 
+/********************************************************/
+
 export const _isSubTransformBlock = (fieldName: string) => {
   if (fieldName.startsWith("_$")) {
     return true;
   }
   return false;
 };
+
+/********************************************************/
