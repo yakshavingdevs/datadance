@@ -1,33 +1,4 @@
-/********************************************************/
-
-/*
-  Datadance : A simple JSON transformation package
-  MIT License
-
-  Copyright (c) 2024-Present Sri Pravan Paturi, Chiranjeevi Karthik Kuruganti, Vodela Saiswapnil Gupta
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  SOFTWARE.
-
-  Please refer the license here : https://github.com/yakshavingdevs/datadance/blob/main/LICENSE
-*/
-
-/********************************************************/
+// Copyright (c) 2024-Present The Yak Shaving Devs, MIT License
 
 import mozjexl from "mozjexl";
 import {
@@ -38,8 +9,6 @@ import {
 } from "./transform.ts";
 import { DataObject, ErrorObject } from "./types.ts";
 import { isRegExpExpression, getType } from "./utils.ts";
-
-/********************************************************/
 
 mozjexl.addTransform("upper", (val: Array<string> | string) => {
   if (typeof val === "string") return val.toUpperCase();
@@ -60,8 +29,6 @@ mozjexl.addTransform("upper", (val: Array<string> | string) => {
     "error-103": `The ${val} of type ${getType(val)} has no method 'upper'. <value> | upper is only supported for String, Array<String>`
   };
 });
-
-/********************************************************/
 
 mozjexl.addTransform(
   "forEach",
@@ -90,8 +57,6 @@ mozjexl.addTransform(
   },
 );
 
-/********************************************************/
-
 mozjexl.addTransform("pluck", (val: Array<any>, properties: Array<String>) => {
   const result = [];
   const justOneProperty: boolean = properties.length === 1 ? true : false;
@@ -104,8 +69,6 @@ mozjexl.addTransform("pluck", (val: Array<any>, properties: Array<String>) => {
   }
   return result;
 });
-
-/********************************************************/
 
 mozjexl.addTransform("lower", (val: Array<string> | string) => {
   if (typeof val === "string") return val.toLowerCase();
@@ -127,8 +90,6 @@ mozjexl.addTransform("lower", (val: Array<string> | string) => {
   };
 });
 
-/********************************************************/
-
 mozjexl.addTransform("capitalize", (val: Array<string> | string) => {
   if (typeof val === "string") return val[0].toUpperCase() + val.slice(1);
   const result: Array<string | ErrorObject> = [];
@@ -148,8 +109,6 @@ mozjexl.addTransform("capitalize", (val: Array<string> | string) => {
     "error-103": `The ${val} of type ${getType(val)} has no method 'capitalize'. <value> | capitalize is only supported for String, Array<String>`
   };
 });
-
-/********************************************************/
 
 mozjexl.addTransform("swapCase", (val: Array<string> | string) => {
   if (typeof val === "string") {
@@ -179,8 +138,6 @@ mozjexl.addTransform("swapCase", (val: Array<string> | string) => {
   };
 });
 
-/********************************************************/
-
 mozjexl.addTransform(
   "startsWith",
   (val: Array<string> | string, char: string) => {
@@ -204,8 +161,6 @@ mozjexl.addTransform(
     };
   }
 );
-
-/********************************************************/
 
 mozjexl.addTransform(
   "endsWith",
@@ -231,8 +186,6 @@ mozjexl.addTransform(
   }
 );
 
-/********************************************************/
-
 mozjexl.addTransform("indexOfChar", (val: Array<string> | string, char: string) => {
   if (typeof val === "string") return (val.indexOf(char));
   const result: Array<number | ErrorObject> = [];
@@ -254,8 +207,6 @@ mozjexl.addTransform("indexOfChar", (val: Array<string> | string, char: string) 
   };
 });
 
-/********************************************************/
-
 mozjexl.addTransform("trim", (val: Array<string> | string) => {
   if (typeof val === "string") return val.trim();
   const result: Array<string | ErrorObject> = [];
@@ -275,8 +226,6 @@ mozjexl.addTransform("trim", (val: Array<string> | string) => {
     "error-103": `The ${val} of type ${getType(val)} has no method 'trim'. <value> | trim is only supported for String, Array<String>`
   };
 });
-
-/********************************************************/
 
 mozjexl.addTransform("ltrim", (val: Array<string> | string) => {
   if (typeof val === "string") return val.trimStart();
@@ -298,8 +247,6 @@ mozjexl.addTransform("ltrim", (val: Array<string> | string) => {
   };
 });
 
-/********************************************************/
-
 mozjexl.addTransform("rtrim", (val: Array<string> | string) => {
   if (typeof val === "string") return val.trimEnd();
   const result: Array<string | ErrorObject> = [];
@@ -319,8 +266,6 @@ mozjexl.addTransform("rtrim", (val: Array<string> | string) => {
     "error-103": `The ${val} of type ${getType(val)} has no method 'rtrim'. <value> | rtrim is only supported for String, Array<String>`
   };
 });
-
-/********************************************************/
 
 mozjexl.addTransform("length", (val: Array<string> | string) => {
   const result: Array<number | ErrorObject> = [];
@@ -342,8 +287,6 @@ mozjexl.addTransform("length", (val: Array<string> | string) => {
   };
 });
 
-/********************************************************/
-
 mozjexl.addTransform("size", (val: Array<any> | object | string) => {
   if (typeof val === "string") return val.length;
   if (typeof val === "object") {
@@ -354,8 +297,6 @@ mozjexl.addTransform("size", (val: Array<any> | object | string) => {
     "error-103": `The ${val} of type ${getType(val)} has no method 'size'. <value> | size is only supported for Object, String, Array<any>`
   };
 });
-
-/********************************************************/
 
 mozjexl.addTransform("replace", (val: Array<string> | string, searchValue: string, replacementString: string) => {
   const searchParam: string | RegExp = isRegExpExpression(searchValue) ? new RegExp(searchValue) : searchValue;
@@ -378,8 +319,6 @@ mozjexl.addTransform("replace", (val: Array<string> | string, searchValue: strin
   };
 });
 
-/********************************************************/
-
 mozjexl.addTransform("replaceAll", (val: Array<string> | string, searchValue: string, replacementString: string) => {
   const searchParam: string | RegExp = isRegExpExpression(searchValue) ? new RegExp(searchValue, "g") : searchValue;
   if (typeof val === "string") return val.replaceAll(searchParam, replacementString);
@@ -401,8 +340,6 @@ mozjexl.addTransform("replaceAll", (val: Array<string> | string, searchValue: st
   };
 });
 
-/********************************************************/
-
 mozjexl.addTransform("split", (val: string, delimiter: string) => {
   const delimiterParam: string | RegExp = isRegExpExpression(delimiter) ? new RegExp(delimiter) : delimiter;
   if (typeof val === "string") return val.split(delimiterParam);
@@ -410,8 +347,6 @@ mozjexl.addTransform("split", (val: string, delimiter: string) => {
     "error-103": `The ${val} of type ${getType(val)} has no method 'split'. <value> | split(<delimiter>) is only supported for String`
   };
 });
-
-/********************************************************/
 
 mozjexl.addTransform("substring", (val: Array<string> | string, startIndex: number, endIndex: number) => {
   if (typeof val === "string") return val.substring(startIndex,endIndex);
@@ -433,8 +368,4 @@ mozjexl.addTransform("substring", (val: Array<string> | string, startIndex: numb
   };
 });
 
-/********************************************************/
-
 export default mozjexl;
-
-/********************************************************/
