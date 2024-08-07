@@ -368,4 +368,44 @@ mozjexl.addTransform("substring", (val: Array<string> | string, startIndex: numb
   };
 });
 
+mozjexl.addTransform("padStart", (val: Array<string> | string, stringLength: number, padWith: string) => {
+  if (typeof val === "string") return val.padStart(stringLength,padWith);
+  const result: Array<string | ErrorObject> = [];
+  if (typeof val === "object" && Array.isArray(val)) {
+    val.forEach((record, idx) => {
+      if (typeof record === "string") {
+        result.push(record.padStart(stringLength,padWith));
+      } else {
+        result.push({
+          "error-103": `The value ${record} of type ${getType(record)} at index ${idx} has no method 'padStart'. <value> | padStart(<stringLength>,<padWith>) is only supported for String, Array<String>`
+        });
+      }
+    });
+    return result;
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'padStart'. <value> | padStart(<stringLength>,<padWith>) is only supported for String, Array<String>`
+  };
+});
+
+mozjexl.addTransform("padEnd", (val: Array<string> | string, stringLength: number, padWith: string) => {
+  if (typeof val === "string") return val.padEnd(stringLength,padWith);
+  const result: Array<string | ErrorObject> = [];
+  if (typeof val === "object" && Array.isArray(val)) {
+    val.forEach((record, idx) => {
+      if (typeof record === "string") {
+        result.push(record.padEnd(stringLength,padWith));
+      } else {
+        result.push({
+          "error-103": `The value ${record} of type ${getType(record)} at index ${idx} has no method 'padEnd'. <value> | padEnd(<stringLength>,<padWith>) is only supported for String, Array<String>`
+        });
+      }
+    });
+    return result;
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'padEnd'. <value> | padEnd(<stringLength>,<padWith>) is only supported for String, Array<String>`
+  };
+});
+
 export default mozjexl;
