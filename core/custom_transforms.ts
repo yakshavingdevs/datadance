@@ -408,4 +408,89 @@ mozjexl.addTransform("padEnd", (val: Array<string> | string, stringLength: numbe
   };
 });
 
+mozjexl.addTransform("parseInt", (val: Array<string> | string, radix: number = 10) => {
+  if (typeof val === "string") return parseInt(val,radix);
+  const result: Array<number | ErrorObject> = [];
+  if (typeof val === "object" && Array.isArray(val)) {
+    val.forEach((record, idx) => {
+      record = record.toString();
+      if (typeof record === "string") {
+        result.push(parseInt(record,radix));
+      } else {
+        result.push({
+          "error-103": `The value ${record} of type ${getType(record)} at index ${idx} has no method 'parseInt'. <value> | parseInt('<string>',<radix>) is only supported for String, Array<String>`
+        });
+      }
+    });
+    return result;
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'parseInt'. <value> | parseInt('<string>',<radix>) is only supported for String, Array<String>`
+  };
+});
+
+
+mozjexl.addTransform("parseFloat", (val: Array<string> | string) => {
+  if (typeof val === "string") return parseFloat(val);
+  const result: Array<number | ErrorObject> = [];
+  if (typeof val === "object" && Array.isArray(val)) {
+    val.forEach((record, idx) => {
+      record = record.toString();
+      if (typeof record === "string") {
+        result.push(parseFloat(record));
+      } else {
+        result.push({
+          "error-103": `The value ${record} of type ${getType(record)} at index ${idx} has no method 'parseFloat'. <value> | parseFloat is only supported for String, Array<String>`
+        });
+      }
+    });
+    return result;
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'parseFloat'. <value> | parseFloat is only supported for String, Array<String>`
+  };
+});
+
+mozjexl.addTransform("toBoolean", (val: Array<string> | string) => {
+  if (typeof val === "string") return val === "true" ? true : false;
+  const result: Array<boolean | ErrorObject> = [];
+  if (typeof val === "object" && Array.isArray(val)) {
+    val.forEach((record, idx) => {
+      record = record.toString();
+      if (typeof record === "string") {
+        result.push(record === "true" ? true : false);
+      } else {
+        result.push({
+          "error-103": `The value ${record} of type ${getType(record)} at index ${idx} has no method 'toBoolean'. <value> | toBoolean is only supported for String, Array<String>`
+        });
+      }
+    });
+    return result;
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'toBoolean'. <value> | toBoolean is only supported for String, Array<String>`
+  };
+});
+
+mozjexl.addTransform("reverse", (val: Array<string> | string) => {
+  if (typeof val === "string") return val.split('').reverse().join('');
+  const result: Array<string | ErrorObject> = [];
+  if (typeof val === "object" && Array.isArray(val)) {
+    val.forEach((record, idx) => {
+      record = record.toString();
+      if (typeof record === "string") {
+        result.push(record.split('').reverse().join(''));
+      } else {
+        result.push({
+          "error-103": `The value ${record} of type ${getType(record)} at index ${idx} has no method 'reverse'. <value> | reverse is only supported for String, Array<String>`
+        });
+      }
+    });
+    return result;
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'reverse'. <value> | reverse is only supported for String, Array<String>`
+  };
+});
+
 export default mozjexl;
