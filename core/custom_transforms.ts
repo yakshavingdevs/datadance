@@ -145,7 +145,6 @@ mozjexl.addTransform(
     const result: Array<boolean | ErrorObject> = [];
     if (typeof val === "object" && Array.isArray(val)) {
       val.forEach((record, idx) => {
-        record = record.toString();
         if (typeof record === "string") {
           result.push(record.startsWith(char));
         } else {
@@ -169,7 +168,6 @@ mozjexl.addTransform(
     const result: Array<boolean | ErrorObject> = [];
     if (typeof val === "object" && Array.isArray(val)) {
       val.forEach((record, idx) => {
-        record = record.toString();
         if (typeof record === "string") {
           result.push(record.endsWith(char));
         } else {
@@ -191,7 +189,6 @@ mozjexl.addTransform("indexOfChar", (val: Array<string> | string, char: string) 
   const result: Array<number | ErrorObject> = [];
   if (typeof val === "object" && Array.isArray(val)) {
     val.forEach((record, idx) => {
-      record = record.toString();
       if (typeof record === "string") {
         result.push(record.indexOf(char));
       } else {
@@ -413,7 +410,6 @@ mozjexl.addTransform("parseInt", (val: Array<string> | string, radix: number = 1
   const result: Array<number | ErrorObject> = [];
   if (typeof val === "object" && Array.isArray(val)) {
     val.forEach((record, idx) => {
-      record = record.toString();
       if (typeof record === "string") {
         result.push(parseInt(record,radix));
       } else {
@@ -435,7 +431,6 @@ mozjexl.addTransform("parseFloat", (val: Array<string> | string) => {
   const result: Array<number | ErrorObject> = [];
   if (typeof val === "object" && Array.isArray(val)) {
     val.forEach((record, idx) => {
-      record = record.toString();
       if (typeof record === "string") {
         result.push(parseFloat(record));
       } else {
@@ -456,7 +451,6 @@ mozjexl.addTransform("toBoolean", (val: Array<string> | string) => {
   const result: Array<boolean | ErrorObject> = [];
   if (typeof val === "object" && Array.isArray(val)) {
     val.forEach((record, idx) => {
-      record = record.toString();
       if (typeof record === "string") {
         result.push(record === "true" ? true : false);
       } else {
@@ -477,7 +471,6 @@ mozjexl.addTransform("reverse", (val: Array<string> | string) => {
   const result: Array<string | ErrorObject> = [];
   if (typeof val === "object" && Array.isArray(val)) {
     val.forEach((record, idx) => {
-      record = record.toString();
       if (typeof record === "string") {
         result.push(record.split('').reverse().join(''));
       } else {
@@ -491,6 +484,180 @@ mozjexl.addTransform("reverse", (val: Array<string> | string) => {
   return {
     "error-103": `The ${val} of type ${getType(val)} has no method 'reverse'. <value> | reverse is only supported for String, Array<String>`
   };
+});
+
+mozjexl.addTransform("push", (val: Array<any>, item: any) => {
+  const result: Array<any | ErrorObject> = structuredClone(val);
+  if (typeof val === "object" && Array.isArray(val)) {
+    result.push(...item);
+    return result;
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'push'. <value> | push(<item>) is only supported for Array<any>`
+  };
+});
+
+mozjexl.addTransform("pop", (val: Array<any>) => {
+  const result: Array<any | ErrorObject> = structuredClone(val);
+  if (typeof val === "object" && Array.isArray(val)) {
+    result.pop();
+    return result;
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'pop'. <value> | pop is only supported for Array<any>`
+  };
+});
+
+mozjexl.addTransform("join", (val: Array<any>, delimiter: any) => {
+  const result: Array<any | ErrorObject> = structuredClone(val);
+  if (typeof val === "object" && Array.isArray(val)) {
+    return result.join(delimiter);
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'join'. <value> | join(<delimiter>) is only supported for Array<any>`
+  };
+});
+
+mozjexl.addTransform("slice", (val: Array<any>, startIdx: number, endIdx: number) => {
+  if (typeof val === "object" && Array.isArray(val)) {
+    return val.slice(startIdx, endIdx);
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'slice'. <value> | slice(<startIdx>,<endIdx>) is only supported for Array<any>`
+  };
+});
+
+mozjexl.addTransform("reverseArray", (val: Array<any>) => {
+  const result: Array<any | ErrorObject> = structuredClone(val);
+  if (typeof val === "object" && Array.isArray(val)) {
+    return result.reverse();
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'reverseArray'. <value> | reverseArray is only supported for Array<any>`
+  };
+});
+
+mozjexl.addTransform("sortArray", (val: Array<any>) => {
+  const result: Array<any | ErrorObject> = structuredClone(val);
+  if (typeof val === "object" && Array.isArray(val)) {
+    return result.sort();
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'sortArray'. <value> | sortArray is only supported for Array<any>`
+  };
+});
+
+// Code below is taken from here : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from#sequence_generator_range
+mozjexl.addTransform("range", (_val: null = null, start: number, stop: number, step: number) => {
+  return Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + (i * step));
+});
+
+mozjexl.addTransform("removeDuplicates", (val: Array<any>) => {
+  const result: Array<any | ErrorObject> = structuredClone(val);
+  if (typeof val === "object" && Array.isArray(val)) {
+    return [...new Set(result)];
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'removeDuplicates'. <value> | removeDuplicates is only supported for Array<any>`
+  };
+});
+
+mozjexl.addTransform("max", (val: Array<number>) => {
+  let result: number = -Infinity;
+  if (typeof val === "object" && Array.isArray(val)) {
+    val.forEach((record) => {
+      console.log(typeof record)
+      if (typeof record === "number") {
+        result = record > result ? record : result;
+        console.log(result)
+      }
+    });
+    return result;
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'max'. <value> | max is only supported for Array<Number>`
+  };
+});
+
+mozjexl.addTransform("min", (val: Array<number>) => {
+  let result: number = Infinity;
+  if (typeof val === "object" && Array.isArray(val)) {
+    val.forEach((record) => {
+      console.log(typeof record)
+      if (typeof record === "number") {
+        result = record < result ? record : result;
+        console.log(result)
+      }
+    });
+    return result;
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'min'. <value> | min is only supported for Array<Number>`
+  };
+});
+
+mozjexl.addTransform("keys", (val: object) => {
+  if (typeof val === "object" && !Array.isArray(val)) {
+    return Object.keys(val);
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'keys'. <value> | keys is only supported for Object`
+  };
+});
+
+mozjexl.addTransform("values", (val: object) => {
+  if (typeof val === "object" && !Array.isArray(val)) {
+    return Object.values(val);
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'values'. <value> | values is only supported for Object`
+  };
+});
+
+
+mozjexl.addTransform("entries", (val: object) => {
+  if (typeof val === "object" && !Array.isArray(val)) {
+    return Object.entries(val);
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'entries'. <value> | entries is only supported for Object`
+  };
+});
+
+mozjexl.addTransform("has", (val: object, property: string) => {
+  if (typeof val === "object" && !Array.isArray(val)) {
+    return Object.hasOwn(val,property);
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'has'. <value> | has is only supported for Object`
+  };
+});
+
+mozjexl.addTransform("delete", (val: Record<string,any>, properties: Array<string>) => {
+  const result: Record<string,any> = {};
+  if (typeof val === "object" && !Array.isArray(val)) {
+    const propertiesToKeep = new Set(Object.keys(val)).symmetricDifference(new Set(properties))
+    propertiesToKeep.forEach((property) => {
+      result[property] = val[property];
+    });
+    return result;
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'delete'. <value> | delete(<properties>) is only supported for Object`
+  };
+});
+
+mozjexl.addTransform("stringify", (val: object) => {
+  if (typeof val === "object" || Array.isArray(val)) {
+    return JSON.stringify(val);
+  }
+  return {
+    "error-103": `The ${val} of type ${getType(val)} has no method 'stringify'. <value> | stringify is only supported for Object or Array`
+  };
+});
+
+mozjexl.addTransform("type", (val: object) => {
+  return getType(val);
 });
 
 export default mozjexl;
