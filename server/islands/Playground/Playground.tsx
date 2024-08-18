@@ -300,7 +300,7 @@ nameUpper : derived.nameObject.name | upper`
                         aria-label="Close"
                       ></button>
                     </div>
-                    <div class="modal-body">The transforms output is successfully copied to clipboard. You can use <code>/api/saveTransform</code> endpoint to svae these transformations and then use <code>/api/run</code> to run these transformations on other inputs.</div>
+                    <div class="modal-body">The transforms output is successfully copied to clipboard. You can use <code>/api/saveTransform</code> endpoint to save these transformations and then use <code>/api/run</code> to run these transformations on other inputs.</div>
                     <div class="modal-footer">
                       <button
                         type="button"
