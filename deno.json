@@ -23,7 +23,8 @@
     "ace-builds": "https://esm.sh/ace-builds@1.35.4/src-noconflict/ace",
     "ace-builds/src-noconflict/theme-dracula": "https://esm.sh/ace-builds@1.35.4/src-noconflict/theme-dracula",
     "ace-builds/src-noconflict/ext-language_tools": "https://esm.sh/ace-builds@1.35.4/src-noconflict/ext-language_tools",
-    "@std/cli": "jsr:@std/cli@^1.0.1"
+    "@std/cli": "jsr:@std/cli@^1.0.1",
+    "jsonpath":"https://esm.sh/jsonpath@1.1.1"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" }
 }
