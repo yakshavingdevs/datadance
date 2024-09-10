@@ -35,11 +35,12 @@ mozjexl.addTransform(
   "forEach",
   async (
     val: Array<any>,
-    context: Record<string, any>,
     transforms: Record<string, any>[],
+    context: Record<string, any> = {},
+    filterOn: string | null = null
   ) => {
     if (context === null) context = {};
-    const forEachResult: Array<any> = [];
+    let forEachResult: Array<any> = [];
     for (let idx = 0; idx < val.length; idx++) {
       const dataObject: DataObject = {
         input: { ...context, item: val[idx], _idx: idx, _$func: transforms },
@@ -53,6 +54,11 @@ mozjexl.addTransform(
         if (result[field]) context[field] = result[field];
       });
       forEachResult.push(result);
+    }
+    if(filterOn !== null && filterOn !== "") {
+      forEachResult = forEachResult.filter((record) => {
+        return record[filterOn];
+      });
     }
     return forEachResult;
   },
