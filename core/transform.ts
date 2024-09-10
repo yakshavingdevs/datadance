@@ -1,7 +1,7 @@
 // Copyright (c) 2024-Present The Yak Shaving Devs, MIT License
 
 // We need the mozjexl object along with custom transforms like upper, forEach...etc
-import mozjexl from "./custom_transforms.ts";
+import mozjexl from "./load_lib.ts";
 import { DataObject, ErrorObject, Expression } from "./types.ts";
 import { errors } from "./constants.ts";
 
