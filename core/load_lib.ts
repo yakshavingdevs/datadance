@@ -61,6 +61,29 @@ import {
   RANDOM,
   ROUND
 } from "./lib/transforms/number_transforms.ts";
+import {
+  CONVERT_DATE_TIME_FORMAT,
+  FORMAT_DATE_TIME,
+  GET_DAY,
+  GET_HOURS,
+  GET_MINUTES,
+  GET_MONTH,
+  GET_SECONDS,
+  GET_TIME_ZONE,
+  GET_YEAR,
+  NOW,
+  SET_DAY,
+  SET_HOURS,
+  SET_MINUTES,
+  SET_MONTH,
+  SET_SECONDS,
+  SET_TIME_ZONE,
+  SET_YEAR,
+  TO_LOCAL,
+  TO_MILLIS,
+  TO_UTC,
+  UTC_NOW
+} from "./lib/transforms/date_transforms.ts";
 
 // String transforms
 mozjexl.addTransform("upper", UPPER);
@@ -121,5 +144,28 @@ mozjexl.addTransform("ceil", CEIL);
 mozjexl.addTransform("floor", FLOOR);
 mozjexl.addTransform("round", ROUND);
 mozjexl.addTransform("random", RANDOM);
+
+// Date transforms
+mozjexl.addTransform("formatDateTime", FORMAT_DATE_TIME);
+mozjexl.addTransform("convertDateTimeFormat", CONVERT_DATE_TIME_FORMAT);
+mozjexl.addTransform("now", NOW);
+mozjexl.addTransform("utcNow", UTC_NOW);
+mozjexl.addTransform("toUTC", TO_UTC);
+mozjexl.addTransform("toLocal", TO_LOCAL);
+mozjexl.addTransform("toMillis", TO_MILLIS);
+mozjexl.addTransform("getSeconds", GET_SECONDS);
+mozjexl.addTransform("getTimeZone", GET_TIME_ZONE);
+mozjexl.addTransform("getMinutes", GET_MINUTES);
+mozjexl.addTransform("getHours", GET_HOURS);
+mozjexl.addTransform("getDay", GET_DAY);
+mozjexl.addTransform("getMonth", GET_MONTH);
+mozjexl.addTransform("getYear", GET_YEAR);
+mozjexl.addTransform("setSeconds", SET_SECONDS);
+mozjexl.addTransform("setTimeZone", SET_TIME_ZONE);
+mozjexl.addTransform("setMinutes", SET_MINUTES);
+mozjexl.addTransform("setHours", SET_HOURS);
+mozjexl.addTransform("setDay", SET_DAY);
+mozjexl.addTransform("setMonth", SET_MONTH);
+mozjexl.addTransform("setYear", SET_YEAR);
 
 export default mozjexl;

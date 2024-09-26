@@ -18,3 +18,5 @@ export interface DataObject {
 export interface ErrorObject {
   [key: string]: string;
 }
+
+export type DateTimeFormatType = 'ISO' | 'RFC2822' | 'SQL' | 'HTTP' | 'Millis';
