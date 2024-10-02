@@ -38,9 +38,11 @@ export const FOREACH = async (
 ) => {
     if (context === null) context = {};
     let forEachResult: Array<any> = [];
+    const originalContext: Record<string, any> = structuredClone(context);
     for (let idx = 0; idx < val.length; idx++) {
         const dataObject: DataObject = {
-            input: { ...context, item: val[idx], _idx: idx, _$func: transforms },
+            input: { ...originalContext, item: val[idx], _idx: idx, _$func: transforms },
+            derived: { ...context },
             transforms: transforms,
             settings: {
                 merge_method: "transforms_only",
