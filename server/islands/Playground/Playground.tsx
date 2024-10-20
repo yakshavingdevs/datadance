@@ -7,6 +7,7 @@ import { transform } from "../../../core/transform.ts";
 import { DataObject } from "../../../core/types.ts";
 import { SerialOperations } from "../../../core/types.ts";
 import { highlight } from "../../utils/highlight_json.ts";
+import { parseTransforms } from "../../utils/parser.ts";
 
 ace.config.set("basePath", "https://esm.sh/ace-builds@1.35.4/src-noconflict");
 ace.config.setModuleUrl(
@@ -14,21 +15,20 @@ ace.config.setModuleUrl(
   "https://cdn.jsdelivr.net/npm/ace-builds@1.4.12/src-noconflict/mode-yaml.js"
 );
 
-const Playground = () => {
-  const [input, setInput] = useState<string>(`{
-    "name": {
-        "first": " malory",
-        "last": "archer"
-    },
-    "exes": [
-        " Nikolai Jakov ",
-        "Len Trexler",
-        "Burt Reynolds"
-    ],
-    "lastEx": 2
-}`);
-  const [transforms, setTransforms] = useState<string>(
-    `lastEx : derived.lastEx + 5
+const sampleInput = `{
+  "name": {
+      "first": " malory",
+      "last": "archer"
+  },
+  "exes": [
+      " Nikolai Jakov ",
+      "Len Trexler",
+      "Burt Reynolds"
+  ],
+  "lastEx": 2
+}`;
+
+const sampleTransforms = `lastEx : derived.lastEx + 5
 modified : derived.lastEx
 original : input.lastEx
 nameObject :
@@ -38,14 +38,46 @@ nameObject :
   ex1 : '=>' + input.exes[0] | rtrim 
 isMinor : derived.nameObject.age < 18
 nameLength : derived.nameObject.name | length
-nameUpper : derived.nameObject.name | upper`
+nameUpper : derived.nameObject.name | upper`;
+
+const Playground = () => {
+  const [input, setInput] = useState<string>(
+    localStorage.getItem("input") || sampleInput
+  );
+  const [transforms, setTransforms] = useState<string>(
+    localStorage.getItem("transforms") || sampleTransforms
   );
   const [output, setOutput] = useState<string>("");
-  const [mergeMethod, setMergeMethod] = useState<string>("overwrite");
+  const [mergeMethod, setMergeMethod] = useState<string>(
+    localStorage.getItem("mergeMethod") || "overwrite"
+  );
   const [errorMessage, setErrorMessage] = useState<string>("");
   const transformsRef = useRef<HTMLDivElement>(null);
   const outputRef = useRef<HTMLPreElement>(null);
   const editorRef = useRef<AceEditor | null>(null);
+
+  const throttle = <T extends (...args: any[]) => void>(
+    func: T,
+    limit: number
+  ): ((...args: Parameters<T>) => void) => {
+    let lastFunc: ReturnType<typeof setTimeout>;
+    let lastRan: number;
+
+    return function (...args: Parameters<T>) {
+      if (!lastRan) {
+        func(...args);
+        lastRan = Date.now();
+      } else {
+        clearTimeout(lastFunc);
+        lastFunc = setTimeout(() => {
+          if (Date.now() - lastRan >= limit) {
+            func(...args);
+            lastRan = Date.now();
+          }
+        }, limit - (Date.now() - lastRan));
+      }
+    };
+  };
 
   useEffect(() => {
     try {
@@ -75,10 +107,10 @@ nameUpper : derived.nameObject.name | upper`
         return editor;
       };
 
-      const handleTransform = (transforms: string) => {
+      const handleTransform = throttle((transforms: string) => {
         const dataObject: DataObject = {
           input: JSON.parse(input),
-          transforms: parseTransforms(transforms),
+          transforms: parseTransformsHelper(transforms),
           settings: {
             merge_method: mergeMethod,
           },
@@ -91,7 +123,7 @@ nameUpper : derived.nameObject.name | upper`
           .catch((error) => {
             setErrorMessage(`Invalid Transforms : ${error}`);
           });
-      };
+      }, 500);
 
       if (transformsRef.current) {
         const editor = initializeEditor();
@@ -116,75 +148,26 @@ nameUpper : derived.nameObject.name | upper`
     }
   }, [output]);
 
-  const parseTransforms = (transforms: string): SerialOperations => {
-    try {
-      const lines = transforms.split("\n");
-      const result: SerialOperations = [];
-      const stack = [{ indent: -1, object: result }];
-      let errorMessage = "";
+  useEffect(() => {
+    localStorage.setItem("input", input);
+  }, [input]);
 
-      lines.forEach((line, index) => {
-        const trimmedLine = line.trim();
-        if (trimmedLine) {
-          const indent = line.search(/\S/);
-          if (indent % 2 !== 0) {
-            errorMessage = `Indentation error at line ${
-              index + 1
-            }: "${line}". Indentation must be in multiples of 2 spaces.`;
-          }
-          if (line.includes(`"`)) {
-            errorMessage = `Error at line ${
-              index + 1
-            }: ${line}. " character is not allowed, use 'literal' to represent string literal.`;
-          }
-          if (!line.includes(`:`)) {
-            errorMessage = `Error at line ${
-              index + 1
-            }: ${line}. Please provide a valid expression`;
-          }
-          const trimmedLineSplit = trimmedLine.split(":");
-          const key = trimmedLineSplit[0].trim();
-          const value = trimmedLineSplit
-            .slice(1, trimmedLineSplit.length)
-            .map((s) => s.trim())
-            .join(":");
+  useEffect(() => {
+    localStorage.setItem("transforms", transforms);
+  }, [transforms]);
 
-          const regexForField = /[^\w\s_$]/;
-          if (regexForField.test(key)) {
-            errorMessage = `Error at line ${
-              index + 1
-            }: ${line}. Field names can only use special characters _ and $`;
-          }
+  useEffect(() => {
+    localStorage.setItem("mergeMethod", mergeMethod);
+  }, [mergeMethod]);
 
-          const newEntry = value ? { [key]: value } : { [key]: [] };
-
-          while (stack.length && stack[stack.length - 1].indent >= indent) {
-            stack.pop();
-          }
-
-          if (stack.length === 0 || stack[stack.length - 1].indent >= indent) {
-            errorMessage = `Indentation error at line ${index + 1}: "${line}"`;
-          }
-
-          const currentParent = stack[stack.length - 1].object;
-          currentParent.push(newEntry);
-
-          if (!value) {
-            stack.push({ indent, object: newEntry[key] });
-          }
-        }
-      });
-
-      if (errorMessage) {
-        setErrorMessage(errorMessage);
-        return [{ error: errorMessage }];
-      } else {
-        setErrorMessage("");
-        return result;
-      }
-    } catch (error) {
-      console.error(`There was an error while parsing transforms : ${error}.`);
+  const parseTransformsHelper = (transforms: string): SerialOperations => {
+    const result = parseTransforms(transforms);
+    if (result.length === 1 && Object.keys(result[0])[0] === "error") {
+      setErrorMessage(result[0]["error"].toString());
+    } else {
+      setErrorMessage("");
     }
+    return result;
   };
 
   function handleInputChange(event: any) {
@@ -204,6 +187,20 @@ nameUpper : derived.nameObject.name | upper`
       console.log(
         `Error while copying parsed transforms to clipboard : ${error}.`
       );
+    }
+  }
+
+  function handleReset(event: any) {
+    localStorage.removeItem("input");
+    localStorage.removeItem("transforms");
+    localStorage.removeItem("mergeMethod");
+
+    setMergeMethod("overwrite");
+    setInput(sampleInput);
+    setTransforms(sampleTransforms);
+
+    if (editorRef.current) {
+      editorRef.current.setValue(sampleTransforms, -1);
     }
   }
 
@@ -290,7 +287,10 @@ nameUpper : derived.nameObject.name | upper`
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="copyTransformsModalLabel">
+                      <h1
+                        class="modal-title fs-5"
+                        id="copyTransformsModalLabel"
+                      >
                         Datadance
                       </h1>
                       <button
@@ -300,13 +300,19 @@ nameUpper : derived.nameObject.name | upper`
                         aria-label="Close"
                       ></button>
                     </div>
-                    <div class="modal-body">The transforms output is successfully copied to clipboard. You can use <code>/api/saveTransform</code> endpoint to save these transformations and then use <code>/api/run</code> to run these transformations on other inputs.</div>
+                    <div class="modal-body">
+                      The transforms output is successfully copied to clipboard.
+                      You can use <code>/api/saveTransform</code> endpoint to
+                      save these transformations and then use{" "}
+                      <code>/api/run</code> to run these transformations on
+                      other inputs.
+                    </div>
                     <div class="modal-footer">
                       <button
                         type="button"
                         class="btn btn-outline-secondary"
                         data-bs-dismiss="modal"
-                        style={{"color":"white"}}
+                        style={{ color: "white" }}
                       >
                         Close
                       </button>
@@ -323,10 +329,19 @@ nameUpper : derived.nameObject.name | upper`
                   class="btn btn-sm btn-outline-secondary"
                   onClick={handleCopyTransforms}
                   style={{ color: "white" }}
-                  data-bs-toggle="modal" 
+                  data-bs-toggle="modal"
                   data-bs-target="#copyTransformsModal"
                 >
                   Copy parsed transforms
+                </button>
+                &nbsp;&nbsp;
+                <button
+                  id="reset"
+                  class="btn btn-sm btn-outline-secondary"
+                  onClick={handleReset}
+                  style={{ color: "white" }}
+                >
+                  Reset
                 </button>
               </h6>
 
