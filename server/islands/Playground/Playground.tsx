@@ -40,16 +40,36 @@ isMinor : derived.nameObject.age < 18
 nameLength : derived.nameObject.name | length
 nameUpper : derived.nameObject.name | upper`;
 
+const getLocalStorageItem = (key: string) => {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem(key);
+  }
+  return null;
+};
+
+const setLocalStorageItem = (key: string, value: any) => {
+  if (typeof window !== "undefined") {
+    return localStorage.setItem(key, value);
+  }
+  return null;
+};
+
+const removeLocalStorageItem = (key: string) => {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem(key);
+  }
+};
+
 const Playground = () => {
   const [input, setInput] = useState<string>(
-    localStorage.getItem("input") || sampleInput
+    getLocalStorageItem("input") || sampleInput
   );
   const [transforms, setTransforms] = useState<string>(
-    localStorage.getItem("transforms") || sampleTransforms
+    getLocalStorageItem("transforms") || sampleTransforms
   );
   const [output, setOutput] = useState<string>("");
   const [mergeMethod, setMergeMethod] = useState<string>(
-    localStorage.getItem("mergeMethod") || "overwrite"
+    getLocalStorageItem("mergeMethod") || "overwrite"
   );
   const [errorMessage, setErrorMessage] = useState<string>("");
   const transformsRef = useRef<HTMLDivElement>(null);
@@ -149,15 +169,15 @@ const Playground = () => {
   }, [output]);
 
   useEffect(() => {
-    localStorage.setItem("input", input);
+    setLocalStorageItem("input", input);
   }, [input]);
 
   useEffect(() => {
-    localStorage.setItem("transforms", transforms);
+    setLocalStorageItem("transforms", transforms);
   }, [transforms]);
 
   useEffect(() => {
-    localStorage.setItem("mergeMethod", mergeMethod);
+    setLocalStorageItem("mergeMethod", mergeMethod);
   }, [mergeMethod]);
 
   const parseTransformsHelper = (transforms: string): SerialOperations => {
@@ -191,9 +211,9 @@ const Playground = () => {
   }
 
   function handleReset(event: any) {
-    localStorage.removeItem("input");
-    localStorage.removeItem("transforms");
-    localStorage.removeItem("mergeMethod");
+    removeLocalStorageItem("input");
+    removeLocalStorageItem("transforms");
+    removeLocalStorageItem("mergeMethod");
 
     setMergeMethod("overwrite");
     setInput(sampleInput);
