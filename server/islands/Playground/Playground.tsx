@@ -8,6 +8,7 @@ import { DataObject } from "../../../core/types.ts";
 import { SerialOperations } from "../../../core/types.ts";
 import { highlight } from "../../utils/highlight_json.ts";
 import { parseTransforms } from "../../utils/parser.ts";
+import { IS_BROWSER } from "$fresh/runtime.ts";
 
 ace.config.set("basePath", "https://esm.sh/ace-builds@1.35.4/src-noconflict");
 ace.config.setModuleUrl(
@@ -41,21 +42,21 @@ nameLength : derived.nameObject.name | length
 nameUpper : derived.nameObject.name | upper`;
 
 const getLocalStorageItem = (key: string) => {
-  if (typeof window !== "undefined") {
+  if (IS_BROWSER) {
     return localStorage.getItem(key);
   }
   return null;
 };
 
 const setLocalStorageItem = (key: string, value: any) => {
-  if (typeof window !== "undefined") {
+  if (IS_BROWSER) {
     return localStorage.setItem(key, value);
   }
   return null;
 };
 
 const removeLocalStorageItem = (key: string) => {
-  if (typeof window !== "undefined") {
+  if (IS_BROWSER) {
     localStorage.removeItem(key);
   }
 };
