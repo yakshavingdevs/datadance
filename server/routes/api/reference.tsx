@@ -584,6 +584,172 @@ export default function APIReferencePage() {
                 class="accordion-button collapsed"
                 type="button"
                 data-bs-toggle="collapse"
+                data-bs-target="#parseEndpoint"
+                aria-expanded="false"
+                aria-controls="parseEndpoint"
+              >
+                <div>
+                  <span>
+                    <strong>/api/parse</strong>
+                  </span>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <span style={{ color: "tomato" }} class="badge text-bg-light">
+                    <strong>POST</strong>
+                  </span>
+                </div>
+              </button>
+            </h2>
+            <div
+              id="parseEndpoint"
+              class="accordion-collapse collapse"
+              data-bs-parent="#apiReference"
+            >
+              <div class="accordion-body">
+                <div>
+                  <p>
+                    The <code>/api/parse</code> endpoint expects a YAML like
+                    text in the request body containing the user-defined
+                    transformations and then they are parsed into JSON which the
+                    datadance backend can understand. Developers can use this to build
+                    their own UI component.
+                  </p>
+                </div>
+                <div>
+                  <strong>Sample request :</strong>
+                  <br></br>
+                  <code>
+                    <pre>
+                      lastEx: input.lastEx + 5<br></br>
+                      x:<br></br>
+                      &nbsp;&nbsp;y:<br></br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;y: derived.lastEx + input.lastEx +
+                      4<br></br>
+                      _z: 'Hello'+' '+'World'
+                    </pre>
+                  </code>
+                </div>
+                <div>
+                  <b>Response :</b>
+                  <br></br>
+                  <code>
+                    <pre>
+                      {JSON.stringify(
+                        [
+                          {
+                            lastEx: "input.lastEx + 5",
+                          },
+                          {
+                            x: [
+                              {
+                                y: [
+                                  {
+                                    y: "derived.lastEx + input.lastEx + 4",
+                                  },
+                                ],
+                              },
+                            ],
+                          },
+                          {
+                            _z: "'Hello'+' '+'World'",
+                          },
+                        ],
+                        null,
+                        2
+                      )}
+                    </pre>
+                  </code>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#encodeEndpoint"
+                aria-expanded="false"
+                aria-controls="encodeEndpoint"
+              >
+                <div>
+                  <span>
+                    <strong>/api/encode</strong>
+                  </span>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <span style={{ color: "tomato" }} class="badge text-bg-light">
+                    <strong>POST</strong>
+                  </span>
+                </div>
+              </button>
+            </h2>
+            <div
+              id="encodeEndpoint"
+              class="accordion-collapse collapse"
+              data-bs-parent="#apiReference"
+            >
+              <div class="accordion-body">
+                <div>
+                  <p>
+                    The <code>/api/encode</code> endpoint expects a parsed JSON transformations object
+                    and then converts it into a code-like YAML, which then can be loaded onto playground.
+                    Along with <code>/api/parse</code>, developers can use build their own UI components using parse
+                    and encode endpoints.
+                  </p>
+                </div>
+                <div>
+                  <strong>Sample request :</strong>
+                  <br></br>
+                  <code>
+                    <pre>
+                      {JSON.stringify(
+                        [
+                          {
+                            lastEx: "input.lastEx + 5",
+                          },
+                          {
+                            x: [
+                              {
+                                y: [
+                                  {
+                                    y: "derived.lastEx + input.lastEx + 4",
+                                  },
+                                ],
+                              },
+                            ],
+                          },
+                          {
+                            _z: "'Hello'+' '+'World'",
+                          },
+                        ],
+                        null,
+                        2
+                      )}
+                    </pre>
+                  </code>
+                </div>
+                <div>
+                  <b>Response :</b>
+                  <br></br>
+                  <code>
+                    <pre>lastEx: input.lastEx + 5<br></br>
+                      x:<br></br>
+                      &nbsp;&nbsp;y:<br></br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;y: derived.lastEx + input.lastEx +
+                      4<br></br>
+                      _z: 'Hello'+' '+'World'
+                    </pre>
+                  </code>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
                 data-bs-target="#deleteTransformEndpoint"
                 aria-expanded="false"
                 aria-controls="deleteTransformEndpoint"
@@ -824,7 +990,8 @@ export default function APIReferencePage() {
               <div class="accordion-body">
                 <div>
                   <p>
-                    The <code>/api/errors</code> returns the error codes list from the core datadance module.
+                    The <code>/api/errors</code> returns the error codes list
+                    from the core datadance module.
                   </p>
                 </div>
                 <div>
@@ -838,7 +1005,7 @@ export default function APIReferencePage() {
                           "error-102",
                           "error-103",
                           "error-104",
-                          "error-105"
+                          "error-105",
                         ],
                         null,
                         2

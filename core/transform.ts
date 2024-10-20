@@ -127,8 +127,12 @@ export const transform = async (
           if (!isSubTransformation) derived[field] = result;
         }
       } catch (error) {
-        const errorResult = { "error-103": error.toString() };
-        console.error(`%cerror-103 : ${errorResult}`, "color:red");
+        let formattedError = JSON.stringify(error);
+        if(formattedError === `{}`){
+          formattedError = "The transforms contain an incomplete/invalid expression.";
+        }
+        const errorResult = { "error-103": formattedError };
+        console.error(`%cerror-103 : ${JSON.stringify(errorResult)}`, "color:red");
         if (!_isTemporaryField(field)) transformedOutput[field] = errorResult;
         if (!isSubTransformation) derived[field] = errorResult;
       }
