@@ -1,9 +1,18 @@
 // Copyright (c) 2024-Present The Yak Shaving Devs, MIT License
 
-export const errors: Array<string> = [
-  "error-101",
-  "error-102",
-  "error-103",
-  "error-104",
-  "error-105",
-];
+export enum Errors {
+  MethodNotDefinedForType = "MethodNotDefinedForType",
+  JsonParseError = "JsonParseError",
+  InvalidDateTimeString = "InvalidDateTimeString",
+  InvalidFromDateTimeFormat = "InvalidFromDateTimeFormat",
+  InvalidToDateTimeFormat = "InvalidToDateTimeFormat",
+  ErrorFetchingCurrentLocalDateTime = "ErrorFetchingCurrentLocalDateTime",
+  ErrorFetchingCurrentUTCDateTime = "ErrorFetchingCurrentUTCDateTime",
+  ErrorConvertingDateTimeToUTC = "ErrorConvertingDateTimeToUTC",
+  ErrorConvertingDateTimeToLocal = "ErrorConvertingDateTimeToLocal",
+  ErrorConvertingDateTimeToMillis = "ErrorConvertingDateTimeToMillis",
+  InvalidTransform = "InvalidTransform",
+  VariableNotInContext = "VariableNotInContext",
+  InvalidMergeMethod = "InvalidMergeMethod",
+  TransformError = "TransformError"
+};

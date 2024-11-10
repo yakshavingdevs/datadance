@@ -19,7 +19,7 @@ import * as $api_saveTransform from "./routes/api/saveTransform.tsx";
 import * as $design_build from "./routes/design/build.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $Playground_Playground from "./islands/Playground/Playground.tsx";
-import { type Manifest } from "$fresh/server.ts";
+import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {

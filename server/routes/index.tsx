@@ -9,6 +9,17 @@ export default function Home() {
       </Head>
       <div>
         <div class="container col-xxl-8 px-4 py-5">
+          <div>
+            <div class="alert alert-light alert-dismissible" role="alert">
+              🚀 Winners of FOSS Hack 2024! Thanks for the Support!
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+              ></button>
+            </div>
+          </div>
           <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
             <div class="col-10 col-sm-8 col-lg-6">
               <img

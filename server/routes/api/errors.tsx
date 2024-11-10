@@ -1,10 +1,10 @@
 import { Handlers } from "$fresh/server.ts";
-import { errors } from "../../../core/constants.ts";
+import { Errors } from "../../../core/constants.ts";
 
 export const handler: Handlers = {
   GET(_request) {
     try {
-      return new Response(JSON.stringify(errors, null, 2), {
+      return new Response(JSON.stringify(Object.values(Errors), null, 2), {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
