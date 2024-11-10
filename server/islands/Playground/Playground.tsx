@@ -352,6 +352,7 @@ const Playground = () => {
                   style={{ color: "white" }}
                   data-bs-toggle="modal"
                   data-bs-target="#copyTransformsModal"
+                  title="Copies the parsed JSON transforms onto clipboard"
                 >
                   Copy parsed transforms
                 </button>
@@ -361,6 +362,7 @@ const Playground = () => {
                   class="btn btn-sm btn-outline-secondary"
                   onClick={handleReset}
                   style={{ color: "white" }}
+                  title="Resets the playground to use default example"
                 >
                   Reset
                 </button>

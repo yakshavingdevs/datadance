@@ -1,5 +1,6 @@
 import { ErrorObject } from "../../types.ts";
 import { getType } from "../../utils.ts";
+import { Errors } from "../../constants.ts";
 
 export const PLUCK = (val: Array<any>, properties: Array<String>) => {
     const result = [];
@@ -21,7 +22,7 @@ export const SIZE = (val: Array<any> | object | string) => {
         return Object.keys(val).length;
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'size'. <value> | size is only supported for Object, String, Array<any>`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'size'. <value> | size is only supported for Object, String, Array<any>`
     };
 };
 
@@ -32,7 +33,7 @@ export const PUSH = (val: Array<any>, item: any) => {
         return result;
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'push'. <value> | push(<item>) is only supported for Array<any>`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'push'. <value> | push(<item>) is only supported for Array<any>`
     };
 };
 
@@ -44,7 +45,7 @@ export const POP = (val: Array<any>) => {
         return result;
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'pop'. <value> | pop is only supported for Array<any>`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'pop'. <value> | pop is only supported for Array<any>`
     };
 };
 
@@ -55,7 +56,7 @@ export const JOIN = (val: Array<any>, delimiter: any) => {
         return result.join(delimiter);
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'join'. <value> | join(<delimiter>) is only supported for Array<any>`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'join'. <value> | join(<delimiter>) is only supported for Array<any>`
     };
 };
 
@@ -64,7 +65,7 @@ export const SLICE = (val: Array<any>, startIdx: number, endIdx: number) => {
         return val.slice(startIdx, endIdx);
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'slice'. <value> | slice(<startIdx>,<endIdx>) is only supported for Array<any>`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'slice'. <value> | slice(<startIdx>,<endIdx>) is only supported for Array<any>`
     };
 };
 
@@ -74,7 +75,7 @@ export const REVERSE_ARRAY = (val: Array<any>) => {
         return result.reverse();
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'reverseArray'. <value> | reverseArray is only supported for Array<any>`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'reverseArray'. <value> | reverseArray is only supported for Array<any>`
     };
 };
 
@@ -84,7 +85,7 @@ export const SORT_ARRAY = (val: Array<any>) => {
         return result.sort();
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'sortArray'. <value> | sortArray is only supported for Array<any>`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'sortArray'. <value> | sortArray is only supported for Array<any>`
     };
 };
 
@@ -99,7 +100,7 @@ export const REMOVE_DUPLICATES = (val: Array<any>) => {
         return [...new Set(result)];
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'removeDuplicates'. <value> | removeDuplicates is only supported for Array<any>`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'removeDuplicates'. <value> | removeDuplicates is only supported for Array<any>`
     };
 };
 
@@ -116,7 +117,7 @@ export const MAX = (val: Array<number>) => {
         return result;
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'max'. <value> | max is only supported for Array<Number>`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'max'. <value> | max is only supported for Array<Number>`
     };
 };
 
@@ -133,6 +134,6 @@ export const MIN = (val: Array<number>) => {
         return result;
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'min'. <value> | min is only supported for Array<Number>`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'min'. <value> | min is only supported for Array<Number>`
     };
 };
