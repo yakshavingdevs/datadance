@@ -1,3 +1,4 @@
+import { Errors } from "../../constants.ts";
 import { getType } from "../../utils.ts";
 
 export const KEYS = (val: object) => {
@@ -5,7 +6,7 @@ export const KEYS = (val: object) => {
         return Object.keys(val);
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'keys'. <value> | keys is only supported for Object`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'keys'. <value> | keys is only supported for Object`
     };
 };
 
@@ -14,7 +15,7 @@ export const VALUES = (val: object) => {
         return Object.values(val);
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'values'. <value> | values is only supported for Object`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'values'. <value> | values is only supported for Object`
     };
 };
 
@@ -23,7 +24,7 @@ export const ENTRIES = (val: object) => {
         return Object.entries(val);
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'entries'. <value> | entries is only supported for Object`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'entries'. <value> | entries is only supported for Object`
     };
 };
 
@@ -32,7 +33,7 @@ export const HAS = (val: object, property: string) => {
         return Object.hasOwn(val, property);
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'has'. <value> | has is only supported for Object`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'has'. <value> | has is only supported for Object`
     };
 };
 
@@ -46,7 +47,7 @@ export const DELETE = (val: Record<string, any>, properties: Array<string>) => {
         return result;
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'delete'. <value> | delete(<properties>) is only supported for Object`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'delete'. <value> | delete(<properties>) is only supported for Object`
     };
 };
 
@@ -55,6 +56,6 @@ export const STRINGIFY = (val: object) => {
         return JSON.stringify(val);
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'stringify'. <value> | stringify is only supported for Object or Array`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'stringify'. <value> | stringify is only supported for Object or Array`
     };
 };

@@ -1,6 +1,7 @@
 // Copyright (c) 2024-Present The Yak Shaving Devs, MIT License
 
-import { DateTimeFormatType } from "./types.ts";
+import { Errors } from "./constants.ts";
+import { DateTimeFormatType, ErrorObject } from "./types.ts";
 import { DateTime } from 'luxon';
 
 export const isRegExpExpression = (expression: string) => {
@@ -33,7 +34,7 @@ export const getType = (value: any) => {
 };
 
 
-export const convertDateTime = (dateString: string, fromFormat: DateTimeFormatType, toFormat: DateTimeFormatType): string => {
+export const convertDateTime = (dateString: string, fromFormat: DateTimeFormatType, toFormat: DateTimeFormatType): string | ErrorObject => {
     let date: DateTime;
 
     // Parse the date string based on the "from" format
@@ -54,12 +55,12 @@ export const convertDateTime = (dateString: string, fromFormat: DateTimeFormatTy
             date = DateTime.fromMillis(parseInt(dateString, 10));
             break;
         default:
-            return `Error: Unsupported fromFormat "${fromFormat}"`;
+            return { [Errors.InvalidFromDateTimeFormat]: `Unsupported fromFormat "${fromFormat}"` };
     }
 
     // Check if the date is valid
     if (!date.isValid) {
-        return `Error: Invalid date string "${dateString}". Reason: ${date.invalidReason}`;
+        return { [Errors.InvalidDateTimeString]: `Invalid date time string "${dateString}". Reason: ${date.invalidReason}` };
     }
 
     // Convert the DateTime object to the desired "to" format
@@ -75,7 +76,7 @@ export const convertDateTime = (dateString: string, fromFormat: DateTimeFormatTy
         case 'Millis':
             return date.toMillis().toString();
         default:
-            return `Error: Unsupported toFormat "${toFormat}"`;
+            return { [Errors.InvalidToDateTimeFormat]: `Error: Unsupported toFormat "${toFormat}"` };
     }
 };
 

@@ -7,6 +7,7 @@ import {
     transform,
 } from "../../transform.ts";
 import { DataObject } from "../../types.ts";
+import { Errors } from "../../constants.ts";
 
 export const JSONPATH = (val: object | Array<any>, path: string | Record<string, any>[]) => {
     if (typeof val === "object" || (typeof val === "object" && Array.isArray(val))) {
@@ -26,7 +27,7 @@ export const JSONPATH = (val: object | Array<any>, path: string | Record<string,
         return result;
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'jsonpath'. <value> | jsonpath(path|pathMap) is only supported for Object or Array`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'jsonpath'. <value> | jsonpath(path|pathMap) is only supported for Object or Array`
     };
 };
 
@@ -71,10 +72,10 @@ export const PARSE_JSON = (val: string) => {
         try {
             return JSON.parse(val);
         } catch (error) {
-            return { "error-103": `The ${val} cannot be parsed : ${error}` };
+            return { [Errors.JsonParseError]: `The ${val} cannot be parsed : ${error}` };
         }
     }
     return {
-        "error-103": `The ${val} of type ${getType(val)} has no method 'parseJson'. <value> | parseJson is only supported for String`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'parseJson'. <value> | parseJson is only supported for String`
     };
 }

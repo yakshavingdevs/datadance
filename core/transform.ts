@@ -3,7 +3,7 @@
 // We need the mozjexl object along with custom transforms like upper, forEach...etc
 import mozjexl from "./load_lib.ts";
 import { DataObject, ErrorObject, Expression } from "./types.ts";
-import { errors } from "./constants.ts";
+import { Errors } from "./constants.ts";
 
 export const transform = async (
   dataObject: DataObject
@@ -41,13 +41,13 @@ export const transform = async (
       // well as deep-nested transformations easy.
       if (Object.keys(fieldTransformObject).length !== 1) {
         console.error(
-          `%cerror-101 : In the transformation : --> ${JSON.stringify(
+          `%c${[Errors.InvalidTransform]} : In the transformation : --> ${JSON.stringify(
             fieldTransformObject
           )} <--,
            there are more than one keys.`,
           "color:red"
         );
-        return { "error-101": "Each transform has to have only one key" };
+        return { [Errors.InvalidTransform]: "Each transform has to have only one key" };
       }
 
       const field: string = Object.keys(fieldTransformObject)[0];
@@ -77,7 +77,7 @@ export const transform = async (
             dataObjectClone.pathTrace.push(subFieldName); // adding sub field to pathTrace
             let subResult: Record<string, any> = {};
             Object.keys(subResultObject).some((key) => {
-              if (errors.includes(key)) {
+              if (Object.keys(Errors).includes(key)) {
                 Object.assign(subResult, {});
                 subResult[subFieldName] = subResultObject;
               } else {
@@ -108,10 +108,10 @@ export const transform = async (
           let result = await mozjexl.eval(expression, { input, derived });
           if (result === undefined || result === null) {
             result = {
-              "error-102": `The transform ${expression} uses variables not available in the context`,
+              [Errors.VariableNotInContext]: `The transform ${expression} uses variables not available in the context`,
             };
             console.error(
-              `%cerror-102 : The expression : --> ${JSON.stringify(
+              `%c${[Errors.VariableNotInContext]} : The expression : --> ${JSON.stringify(
                 expression
               )} <--,
            uses variables not available in the context.`,
@@ -128,11 +128,11 @@ export const transform = async (
         }
       } catch (error) {
         let formattedError = JSON.stringify(error);
-        if(formattedError === `{}`){
+        if (formattedError === `{}`) {
           formattedError = "The transforms contain an incomplete/invalid expression.";
         }
-        const errorResult = { "error-103": formattedError };
-        console.error(`%cerror-103 : ${JSON.stringify(errorResult)}`, "color:red");
+        const errorResult = { [Errors.TransformError]: formattedError };
+        console.error(`%c${[Errors.TransformError]}: ${JSON.stringify(errorResult)}`, "color:red");
         if (!_isTemporaryField(field)) transformedOutput[field] = errorResult;
         if (!isSubTransformation) derived[field] = errorResult;
       }
@@ -146,10 +146,10 @@ export const transform = async (
       case "transforms_only":
         return transformedOutput;
       default:
-        return { "error-104": "Invalid merge method" };
+        return { [Errors.InvalidMergeMethod]: "Invalid merge method" };
     }
   } catch (transformError) {
-    return { "error-105": transformError.toString() };
+    return { [Errors.TransformError]: transformError.toString() };
   }
 };
 
