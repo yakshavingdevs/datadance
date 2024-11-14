@@ -112,6 +112,36 @@ export default function Home() {
               </div>
             </div>
           </div>
+          <div class="card mx-auto" >
+            <div class="card-body">
+              <h5 class="card-title mb-3">Install Datadance v1.0.2</h5>
+              <pre class="bg-dark p-3 rounded">
+                <code>npm install @yakshavingdevs/datadance</code>
+              </pre>
+            </div>
+          </div>
+          <br></br>
+          <div class="card mx-auto" >
+            <div class="card-body">
+              <h5 class="card-title mb-3">Usage</h5>
+              <pre class="bg-dark p-3 rounded">
+                <code>
+                {`import { transform } from "@yakshavingdevs/datadance";  
+async function process() {
+  var res = await transform({
+              input: { x: 2 },
+              transforms: [{ x: "input.x+8" }],
+              settings: {
+                merge_method: "overwrite",
+              },
+            });
+            console.log(res); // { x : 8 }
+}
+process();`}
+                </code>
+              </pre>
+            </div>
+          </div>
         </div>
       </div>
     </>
