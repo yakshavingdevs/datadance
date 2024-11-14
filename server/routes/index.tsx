@@ -32,7 +32,7 @@ export default function Home() {
               ></img>
             </div>
             <div class="col-lg-6">
-              <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">
+              <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3 text-primary">
                 Jam and Glam Your JSON. Make it dance.
               </h1>
               <p class="lead">

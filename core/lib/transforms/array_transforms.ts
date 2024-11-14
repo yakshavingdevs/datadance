@@ -108,10 +108,8 @@ export const MAX = (val: Array<number>) => {
     let result: number = -Infinity;
     if (typeof val === "object" && Array.isArray(val)) {
         val.forEach((record) => {
-            console.log(typeof record)
             if (typeof record === "number") {
                 result = record > result ? record : result;
-                console.log(result)
             }
         });
         return result;
@@ -125,10 +123,8 @@ export const MIN = (val: Array<number>) => {
     let result: number = Infinity;
     if (typeof val === "object" && Array.isArray(val)) {
         val.forEach((record) => {
-            console.log(typeof record)
             if (typeof record === "number") {
                 result = record < result ? record : result;
-                console.log(result)
             }
         });
         return result;

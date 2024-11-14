@@ -1,5 +1,14 @@
 import { Errors } from "../../constants.ts";
-import { getType } from "../../utils.ts";
+import { getType, symmetricDifference } from "../../utils.ts";
+
+export const GET = (val: Record<string,any>, property : string) => {
+    if (typeof val === "object" && !Array.isArray(val)) {
+        return val?.[property] || null;
+    }
+    return {
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'keys'. <value> | keys is only supported for Object`
+    };
+};
 
 export const KEYS = (val: object) => {
     if (typeof val === "object" && !Array.isArray(val)) {
@@ -40,8 +49,8 @@ export const HAS = (val: object, property: string) => {
 export const DELETE = (val: Record<string, any>, properties: Array<string>) => {
     const result: Record<string, any> = {};
     if (typeof val === "object" && !Array.isArray(val)) {
-        const propertiesToKeep = new Set(Object.keys(val)).symmetricDifference(new Set(properties))
-        propertiesToKeep.forEach((property) => {
+        const propertiesToKeep = symmetricDifference(new Set(Object.keys(val)), new Set(properties));
+        propertiesToKeep.forEach((property: string) => {
             result[property] = val[property];
         });
         return result;

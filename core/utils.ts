@@ -83,3 +83,15 @@ export const convertDateTime = (dateString: string, fromFormat: DateTimeFormatTy
 export const isValidDateTime = (dateTimeString: string) => {
     return DateTime.fromISO(dateTimeString, { setZone: true }).isValid;
 };
+
+export const symmetricDifference = (setA: Set<string>, setB: Set<string>): Set<string> => {
+    const difference = new Set(setA);
+    for (const elem of setB) {
+        if (difference.has(elem)) {
+            difference.delete(elem);
+        } else {
+            difference.add(elem);
+        }
+    }
+    return difference;
+};

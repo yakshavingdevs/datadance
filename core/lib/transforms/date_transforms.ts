@@ -3,7 +3,7 @@ import { DateTimeFormatType, ErrorObject } from "../../types.ts";
 import { convertDateTime, getType, isValidDateTime } from "../../utils.ts";
 import { Errors } from "../../constants.ts";
 
-export const FORMAT_DATE_TIME = (val: Array<string> | string, format: string = "yyyy-MM-dd") => {
+export const FORMAT_DATE_TIME = (val: string, format: string = "yyyy-MM-dd") => {
     if (!isValidDateTime(val)) return { [Errors.InvalidDateTimeString]: "Invalid date time string provided" }
     if (typeof val === "string") return DateTime.fromISO(val, { "setZone": true }).toFormat(format);
     return {
@@ -12,7 +12,7 @@ export const FORMAT_DATE_TIME = (val: Array<string> | string, format: string = "
 };
 
 
-export const CONVERT_DATE_TIME_FORMAT = (val: Array<string> | string, fromFormat: DateTimeFormatType, toFormat: DateTimeFormatType) => {
+export const CONVERT_DATE_TIME_FORMAT = (val: string, fromFormat: DateTimeFormatType, toFormat: DateTimeFormatType) => {
     if (typeof val === "string") return convertDateTime(val, fromFormat, toFormat);
     return {
         [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'convertDateTimeFormat'. <value> | convertDateTimeFormat(<fromFormat>,<toFormat>) is only supported for String`

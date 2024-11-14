@@ -144,7 +144,7 @@ const Playground = () => {
           .catch((error) => {
             setErrorMessage(`Invalid Transforms : ${error}`);
           });
-      }, 500);
+      }, 1000);
 
       if (transformsRef.current) {
         const editor = initializeEditor();
@@ -246,7 +246,7 @@ const Playground = () => {
                   height: "20em",
                 }}
               />
-              <label for="inputJson">Input JSON</label>
+              <label for="inputJson" class="text-primary">Input JSON</label>
             </div>
           </div>
           <div>
