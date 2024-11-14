@@ -24,7 +24,7 @@ export default function App({ Component }: PageProps) {
           crossorigin="anonymous"
         ></link>
       </head>
-      <body data-bs-theme="dark">
+      <body data-bs-theme="dark-material">
         <header>
           <div class="px-3 py-2 border-bottom">
             <div class="container">
@@ -62,9 +62,9 @@ export default function App({ Component }: PageProps) {
         <Component />
         <hr></hr>
         <footer class="container">
-            <p class="text-center text-body-secondary">
-              © 2024 Datadance,&nbsp;
-              <a href="https://yakshavingdevs.org" style={{"color":"white","textDecoration":"none"}}>Yak Shaving Devs</a>
+            <p class="text-center text-body-primary">
+              © 2024 - 2025 Datadance,&nbsp;
+              <a href="https://yakshavingdevs.org" style={{"color":"white","textDecoration":"none","font-weight":"bold"}}>Yak Shaving Devs</a>
             </p>
         </footer>
         <script

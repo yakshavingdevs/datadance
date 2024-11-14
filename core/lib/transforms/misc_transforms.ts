@@ -11,7 +11,6 @@ import { Errors } from "../../constants.ts";
 
 export const JSONPATH = (val: object | Array<any>, path: string | Record<string, any>[]) => {
     if (typeof val === "object" || (typeof val === "object" && Array.isArray(val))) {
-        console.log(path);
         const result: Record<string, any> = {};
         if (typeof path === "string") return jsonpath.query(val, path);
         if (typeof path === "object" && Array.isArray(path)) {

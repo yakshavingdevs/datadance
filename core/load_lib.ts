@@ -1,6 +1,8 @@
 // Copyright (c) 2024-Present The Yak Shaving Devs, MIT License
 
+// @ts-ignore "Mozjexl do not have any official or community built type definitions"
 import mozjexl from "mozjexl";
+
 import {
   CAPITALIZE,
   ENDS_WITH,
@@ -49,6 +51,7 @@ import {
 import {
   DELETE,
   ENTRIES,
+  GET,
   HAS,
   KEYS,
   STRINGIFY,
@@ -134,6 +137,7 @@ mozjexl.addTransform("min", MIN);
 mozjexl.addTransform("keys", KEYS);
 mozjexl.addTransform("values", VALUES);
 mozjexl.addTransform("entries", ENTRIES);
+mozjexl.addTransform("get", GET);
 mozjexl.addTransform("has", HAS);
 mozjexl.addTransform("delete", DELETE);
 mozjexl.addTransform("stringify", STRINGIFY);

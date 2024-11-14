@@ -920,8 +920,7 @@ export default function APIReferencePage() {
                   </span>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <span
-                    style={{ color: "tomato" }}
-                    class="badge text-bg-secondary"
+                    class="badge text-bg-primary"
                   >
                     <strong>GET</strong>
                   </span>
@@ -974,8 +973,7 @@ export default function APIReferencePage() {
                   </span>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <span
-                    style={{ color: "tomato" }}
-                    class="badge text-bg-secondary"
+                    class="badge text-bg-primary"
                   >
                     <strong>GET</strong>
                   </span>

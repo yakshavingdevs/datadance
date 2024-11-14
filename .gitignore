@@ -13,4 +13,7 @@ node_modules/
 # vscode config
 .vscode
 
+# npm
+/npm
+
 bin

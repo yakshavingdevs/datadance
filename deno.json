@@ -1,5 +1,5 @@
 {
-  "lock": true,
+  "lock": false,
   "tasks": {
     "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
     "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run --unstable -A -",
@@ -8,12 +8,14 @@
     "build": "deno run -A --unstable-kv server/dev.ts build",
     "preview": "deno run -A --unstable-kv server/main.ts",
     "update": "deno run -A -r https://fresh.deno.dev/update .",
-    "compile": "deno compile --output ./bin/datadance ./cli/index.ts"
+    "compile": "deno compile --output ./bin/datadance ./cli/index.ts",
+    "build-package": "deno run -A build.ts"
   },
   "lint": { "rules": { "tags": ["fresh", "recommended"] } },
   "exclude": ["**/_fresh/*"],
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.7.3/",
+    "@deno/dnt": "jsr:@deno/dnt@^0.41.3",
     "preact": "https://esm.sh/preact@10.19.6",
     "preact/": "https://esm.sh/preact@10.19.6/",
     "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",

@@ -1,14 +1,14 @@
 import { getType, isRegExpExpression } from "../../utils.ts";
 import { Errors } from "../../constants.ts";
 
-export const UPPER = (val: Array<string> | string) => {
+export const UPPER = (val: string) => {
     if (typeof val === "string") return val.toUpperCase();
     return {
         [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'upper'. <value> | upper is only supported for String`
     };
 };
 
-export const LOWER = (val: Array<string> | string) => {
+export const LOWER = (val: string) => {
     if (typeof val === "string") return val.toLowerCase();
     return {
         [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'lower'. <value> | lower is only supported for String`
