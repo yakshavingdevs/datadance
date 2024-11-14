@@ -19,6 +19,44 @@
 
 <hr>
 
+### Install
+
+Install DataDance from npm:
+
+```bash
+npm install @yakshavingdevs/datadance
+```
+
+Then you can import it in your code :
+```js
+import { transform } from "@yakshavingdevs/datadance";
+```
+
+or 
+
+```js
+const datadance = require("@yakshavingdevs/datadance");
+const transform = datadance.transform;
+```
+
+You can use the transform method :
+
+```js
+async function test() {
+    var res = await transform({
+        input: { x: 2 },
+        transforms: [{ x: "input.x+8" }],
+        settings: {
+            merge_method: "overwrite",
+        },
+    });
+    console.log(res); // { x : 8 }
+}
+test();
+```
+
+<hr>
+
 ### Local Setup
 
 - **Datadance** uses [Deno](https://deno.com/), so you need to install Deno in your local.<br><br>
