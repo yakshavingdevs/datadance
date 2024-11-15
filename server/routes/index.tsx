@@ -135,7 +135,7 @@ async function process() {
                 merge_method: "overwrite",
               },
             });
-            console.log(res); // { x : 8 }
+            console.log(res); // { x : 10 }
 }
 process();`}
                 </code>

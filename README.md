@@ -50,7 +50,7 @@ async function test() {
             merge_method: "overwrite",
         },
     });
-    console.log(res); // { x : 8 }
+    console.log(res); // { x : 10 }
 }
 test();
 ```
