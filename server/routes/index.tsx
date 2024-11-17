@@ -114,9 +114,9 @@ export default function Home() {
           </div>
           <div class="card mx-auto" >
             <div class="card-body">
-              <h5 class="card-title mb-3">Install Datadance v1.0.2</h5>
+              <h5 class="card-title mb-3">Install Datadance v1.0.1</h5>
               <pre class="bg-dark p-3 rounded">
-                <code>npm install @yakshavingdevs/datadance</code>
+                <code>npm install datadance</code>
               </pre>
             </div>
           </div>
@@ -126,7 +126,7 @@ export default function Home() {
               <h5 class="card-title mb-3">Usage</h5>
               <pre class="bg-dark p-3 rounded">
                 <code>
-                {`import { transform } from "@yakshavingdevs/datadance";  
+                {`import { transform } from "datadance";  
 async function process() {
   var res = await transform({
               input: { x: 2 },

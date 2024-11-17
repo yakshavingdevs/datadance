@@ -11,7 +11,7 @@
     <img alt="license" src="https://img.shields.io/badge/license-MIT-blue">
   </a>
   <a href="https://github.com/yakshavingdevs/datadance/blob/main/LICENSE">
-    <img alt="version" src="https://img.shields.io/badge/version-1.0.2-blue">
+    <img alt="version" src="https://img.shields.io/badge/version-1.0.1-blue">
   </a><br><br>
 </div>
 
@@ -24,18 +24,18 @@
 Install DataDance from npm:
 
 ```bash
-npm install @yakshavingdevs/datadance
+npm install datadance
 ```
 
 Then you can import it in your code :
 ```js
-import { transform } from "@yakshavingdevs/datadance";
+import { transform } from "datadance";
 ```
 
 or 
 
 ```js
-const datadance = require("@yakshavingdevs/datadance");
+const datadance = require("datadance");
 const transform = datadance.transform;
 ```
 
