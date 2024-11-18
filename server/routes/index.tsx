@@ -6,6 +6,9 @@ export default function Home() {
       <Head>
         <title>Datadance</title>
         <meta name="description" content="Home page of Datadance." />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/nnfx-dark.min.css"></link>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
       </Head>
       <div>
         <div class="container col-xxl-8 px-4 py-5">
@@ -112,16 +115,16 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div class="card mx-auto" >
+          <div class="card mx-auto">
             <div class="card-body">
               <h5 class="card-title mb-3">Install Datadance v1.0.1</h5>
               <pre class="bg-dark p-3 rounded">
-                <code>npm install datadance</code>
+                <code class="language-bash">npm install datadance</code>
               </pre>
             </div>
           </div>
           <br></br>
-          <div class="card mx-auto" >
+          <div class="card mx-auto">
             <div class="card-body">
               <h5 class="card-title mb-3">Usage</h5>
               <pre class="bg-dark p-3 rounded">

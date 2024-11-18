@@ -32,7 +32,8 @@ import {
   FOREACH,
   JSONPATH,
   PARSE_JSON,
-  TYPE
+  TYPE,
+  UUID
 } from "./lib/transforms/misc_transforms.ts";
 import {
   JOIN,
@@ -42,6 +43,7 @@ import {
   POP,
   PUSH,
   RANGE,
+  RANGE_RIGHT,
   REMOVE_DUPLICATES,
   REVERSE_ARRAY,
   SIZE,
@@ -55,7 +57,8 @@ import {
   HAS,
   KEYS,
   STRINGIFY,
-  VALUES
+  VALUES,
+  DEEP_MERGE
 } from "./lib/transforms/object_transforms.ts";
 import {
   ABS,
@@ -87,6 +90,15 @@ import {
   TO_UTC,
   UTC_NOW
 } from "./lib/transforms/date_transforms.ts";
+import { EQUALS_IGNORE_CASE, STRICT_EQUALS } from "./lib/operators/custom_operators.ts";
+import { Errors } from "./constants.ts";
+import { getType } from "./utils.ts";
+
+
+// Operators
+mozjexl.addBinaryOp("_=", 20, EQUALS_IGNORE_CASE)
+mozjexl.addBinaryOp("===", 20, STRICT_EQUALS)
+
 
 // String transforms
 mozjexl.addTransform("upper", UPPER);
@@ -118,6 +130,7 @@ mozjexl.addTransform("forEach", FOREACH);
 mozjexl.addTransform("jsonpath", JSONPATH);
 mozjexl.addTransform("type", TYPE);
 mozjexl.addTransform("parseJson", PARSE_JSON);
+mozjexl.addTransform("UUID", UUID);
 
 // Array transforms
 mozjexl.addTransform("pluck", PLUCK);
@@ -129,6 +142,7 @@ mozjexl.addTransform("slice", SLICE);
 mozjexl.addTransform("reverseArray", REVERSE_ARRAY);
 mozjexl.addTransform("sortArray", SORT_ARRAY);
 mozjexl.addTransform("range", RANGE);
+mozjexl.addTransform("rangeRight", RANGE_RIGHT);
 mozjexl.addTransform("removeDuplicates", REMOVE_DUPLICATES);
 mozjexl.addTransform("max", MAX);
 mozjexl.addTransform("min", MIN);
@@ -141,6 +155,7 @@ mozjexl.addTransform("get", GET);
 mozjexl.addTransform("has", HAS);
 mozjexl.addTransform("delete", DELETE);
 mozjexl.addTransform("stringify", STRINGIFY);
+mozjexl.addTransform("deepMerge", DEEP_MERGE);
 
 // Number transforms
 mozjexl.addTransform("abs", ABS);
@@ -171,5 +186,25 @@ mozjexl.addTransform("setHours", SET_HOURS);
 mozjexl.addTransform("setDay", SET_DAY);
 mozjexl.addTransform("setMonth", SET_MONTH);
 mozjexl.addTransform("setYear", SET_YEAR);
+
+
+// This has to be loaded at last to mozjexl!... That is why placing it here.
+const EVALUATE_EXPRESSION = async (val: string, context: Record<any, any>) => {
+  if (typeof val === "string") {
+    const regex = /{{\s*(.+?)\s*}}/g;
+    const parts = val.split(regex);
+    for (let i = 1; i < parts.length; i += 2) {
+      const result = await mozjexl.eval(parts[i], context);
+      if (typeof result !== "string") parts[i] = JSON.stringify(await mozjexl.eval(parts[i], context));
+      else parts[i] = await mozjexl.eval(parts[i], context);
+    }
+    return parts.join("");
+  }
+  return {
+    [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'evaluateExpression'. <value> | evaluateExpression(context) is only supported for String`
+  };
+};
+
+mozjexl.addTransform("evaluateExpression", EVALUATE_EXPRESSION);
 
 export default mozjexl;

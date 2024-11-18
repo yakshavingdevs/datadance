@@ -52,12 +52,11 @@ export const FOREACH = async (
         Object.keys(context).forEach((field) => {
             if (result[field]) context[field] = result[field];
         });
-        forEachResult.push(result);
-    }
-    if (filterOn !== null && filterOn !== "") {
-        forEachResult = forEachResult.filter((record) => {
-            return record[filterOn];
-        });
+        if (filterOn !== null && filterOn !== "") {
+            if (result[filterOn]) {
+                forEachResult.push(result);
+            }
+        }
     }
     return forEachResult;
 };
@@ -67,7 +66,7 @@ export const TYPE = (val: object) => {
 };
 
 export const PARSE_JSON = (val: string) => {
-    if(typeof val === "string") {
+    if (typeof val === "string") {
         try {
             return JSON.parse(val);
         } catch (error) {
@@ -78,3 +77,7 @@ export const PARSE_JSON = (val: string) => {
         [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'parseJson'. <value> | parseJson is only supported for String`
     };
 }
+
+export const UUID = (_val: null = null) => {
+    return crypto.randomUUID();
+};

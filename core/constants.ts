@@ -14,5 +14,6 @@ export enum Errors {
   InvalidTransform = "InvalidTransform",
   VariableNotInContext = "VariableNotInContext",
   InvalidMergeMethod = "InvalidMergeMethod",
-  TransformError = "TransformError"
+  TransformError = "TransformError",
+  OperatorNotDefinedForType = "OperatorNotDefinedForType"
 };

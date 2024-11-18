@@ -63,7 +63,7 @@ export default function App({ Component }: PageProps) {
         <hr></hr>
         <footer class="container">
             <p class="text-center text-body-primary">
-              © 2024 - 2025 Datadance,&nbsp;
+              © {new Date().getFullYear()} Datadance,&nbsp;
               <a href="https://yakshavingdevs.org" style={{"color":"white","textDecoration":"none","font-weight":"bold"}}>Yak Shaving Devs</a>
             </p>
         </footer>

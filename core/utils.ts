@@ -1,7 +1,7 @@
 // Copyright (c) 2024-Present The Yak Shaving Devs, MIT License
 
 import { Errors } from "./constants.ts";
-import { DateTimeFormatType, ErrorObject } from "./types.ts";
+import { DateTimeFormatType, ErrorObject, PlainObject } from "./types.ts";
 import { DateTime } from 'luxon';
 
 export const isRegExpExpression = (expression: string) => {
@@ -95,3 +95,7 @@ export const symmetricDifference = (setA: Set<string>, setB: Set<string>): Set<s
     }
     return difference;
 };
+
+export const isObject = (value: unknown): value is PlainObject => {
+    return value !== null && typeof value === "object" && !Array.isArray(value);
+  };

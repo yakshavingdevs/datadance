@@ -9,7 +9,8 @@
 button {
   color: inherit;
 }
-button, [role="button"] {
+button,
+[role="button"] {
   cursor: pointer;
 }
 code {
@@ -229,11 +230,11 @@ html {
   color: white;
   font-family: "Roboto", sans-serif;
 }
-[data-bs-theme="dark-material"] h1, 
-[data-bs-theme="dark-material"] h2, 
-[data-bs-theme="dark-material"] h3, 
-[data-bs-theme="dark-material"] h4, 
-[data-bs-theme="dark-material"] h5, 
+[data-bs-theme="dark-material"] h1,
+[data-bs-theme="dark-material"] h2,
+[data-bs-theme="dark-material"] h3,
+[data-bs-theme="dark-material"] h4,
+[data-bs-theme="dark-material"] h5,
 [data-bs-theme="dark-material"] h6 {
   color: var(--bs-heading-color);
   font-weight: 500;
