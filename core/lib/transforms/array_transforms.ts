@@ -94,6 +94,10 @@ export const RANGE = (_val: null = null, start: number, stop: number, step: numb
     return Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + (i * step));
 };
 
+export const RANGE_RIGHT = (_val: null = null, start: number, stop: number, step: number) => {
+    return Array.from({ length: (start - stop) / step + 1 }, (_, i) => start - (i * Math.abs(step)));
+};
+
 export const REMOVE_DUPLICATES = (val: Array<any>) => {
     const result: Array<any | ErrorObject> = structuredClone(val);
     if (typeof val === "object" && Array.isArray(val)) {

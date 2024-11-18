@@ -20,3 +20,5 @@ export interface ErrorObject {
 }
 
 export type DateTimeFormatType = 'ISO' | 'RFC2822' | 'SQL' | 'HTTP' | 'Millis';
+
+export type PlainObject = Record<string, any>;

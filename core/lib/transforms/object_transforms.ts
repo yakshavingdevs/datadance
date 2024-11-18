@@ -1,12 +1,13 @@
 import { Errors } from "../../constants.ts";
-import { getType, symmetricDifference } from "../../utils.ts";
+import { PlainObject } from "../../types.ts";
+import { getType, isObject, symmetricDifference } from "../../utils.ts";
 
-export const GET = (val: Record<string,any>, property : string) => {
+export const GET = (val: Record<string, any>, property: string) => {
     if (typeof val === "object" && !Array.isArray(val)) {
         return val?.[property] || null;
     }
     return {
-        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'keys'. <value> | keys is only supported for Object`
+        [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'get'. <value> | get(<property>) is only supported for Object`
     };
 };
 
@@ -67,4 +68,29 @@ export const STRINGIFY = (val: object) => {
     return {
         [Errors.MethodNotDefinedForType]: `The ${val} of type ${getType(val)} has no method 'stringify'. <value> | stringify is only supported for Object or Array`
     };
+};
+
+export const DEEP_MERGE = <T extends PlainObject, U extends PlainObject>(
+    val: T,
+    objectToMerge: U
+): T & U => {
+    if (!isObject(val)) return objectToMerge as T & U;
+    if (!isObject(objectToMerge)) return val as T & U;
+
+    const merged: PlainObject = { ...val };
+
+    for (const key in objectToMerge) {
+        if (Object.prototype.hasOwnProperty.call(objectToMerge, key)) {
+            const valProp = merged[key];
+            const mergeProp = objectToMerge[key];
+
+            if (isObject(valProp) && isObject(mergeProp)) {
+                merged[key] = DEEP_MERGE(valProp, mergeProp);
+            } else {
+                merged[key] = mergeProp;
+            }
+        }
+    }
+
+    return merged as T & U;
 };
