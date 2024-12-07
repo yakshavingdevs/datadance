@@ -1,3 +1,5 @@
+// Copyright (c) 2024-Present The Yak Shaving Devs, MIT License
+
 import { ErrorObject } from "../../types.ts";
 import { getType } from "../../utils.ts";
 import { Errors } from "../../constants.ts";

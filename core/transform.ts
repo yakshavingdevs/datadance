@@ -1,6 +1,12 @@
 // Copyright (c) 2024-Present The Yak Shaving Devs, MIT License
 
-// We need the mozjexl object along with custom transforms like upper, forEach...etc
+/**
+ * Import the `mozjexl` object along with any custom transforms, 
+ * such as `upper`, `forEach`, and others as needed.
+ * 
+ * These custom transforms extend the functionality of `mozjexl` 
+ * by providing additional utilities.
+ */
 import mozjexl from "./load_lib.ts";
 import { DataObject, ErrorObject, Expression } from "./types.ts";
 import { Errors } from "./constants.ts";
@@ -24,21 +30,39 @@ export const transform = async (
 
     const transformedOutput: Record<string, any> = {};
 
-    // The dataObjectClone is used in making the nested sub transformations work
+    /**
+     * The `dataObjectClone` is utilized to enable the functionality 
+     * of nested sub-transformations.
+     * 
+     * By working on a cloned version of the data object, it ensures 
+     * that nested transformations are processed independently while 
+     * preserving the integrity of the original data structure.
+     */
     const dataObjectClone = structuredClone(dataObject);
-    // From the sub transformations, We would ony need the touched fields always
-    // Otherwise sanitizing the sub transformations output would be tedious task
+    /**
+     * From the sub-transformations, we only retain the fields that were modified 
+     * (touched) during the process.
+     * 
+     * Retaining only the touched fields avoids the need for sanitizing the output 
+     * of sub-transformations, simplifying the overall workflow and ensuring clean results.
+     */
     dataObjectClone.settings.merge_method = "transforms_only";
     dataObjectClone.derived = derived;
     dataObjectClone.pathTrace = pathTrace;
     dataObjectClone.isSubTransformation = isSubTransformation;
 
     for (const fieldTransformObject of transforms) {
-      // For the transformations to be evaluated in order, we restrict the transforms to be 
-      // a list of JSON Objects, where each object has only one key.
-      // And value can be a simple string expressions or another list of JSON Objects
-      // with each object containing only one key. This helps in evaluating simple and as
-      // well as deep-nested transformations easy.
+      /**
+       * To ensure transformations are evaluated in order, we restrict transforms 
+       * to be a list of JSON objects, where each object contains only one key.
+       * 
+       * The value of each key can either be:
+       * 1. A simple string expression, or
+       * 2. Another list of JSON objects, where each object also contains only one key.
+       * 
+       * This structure simplifies the evaluation process for both straightforward 
+       * and deeply nested transformations.
+       */
       if (Object.keys(fieldTransformObject).length !== 1) {
         console.error(
           `%c${[Errors.InvalidTransform]} : In the transformation : --> ${JSON.stringify(
@@ -55,13 +79,25 @@ export const transform = async (
 
       try {
         if (_isSubTransformBlock(field)) {
-          // Sub transform block i.e fields starting with _$ never gets evaluated,
-          // But only gets added to the derived state for referencing it.
-          dataObjectClone.derived[field] = expression;
+          /**
+           * Sub-transform blocks (fields starting with an underscore followed by a dollar sign, e.g., `_$`) 
+           * are not directly evaluated. Instead, they are added to the derived state for reference purposes.
+           *
+           * These sub-transform blocks, regardless of their nesting level, are only accessible at the root 
+           * level for referencing. This ensures a consistent way to access functions from derived state data throughout 
+           * the system.
+           */
+          derived[field] = expression;
           continue;
         }
         if (Array.isArray(expression)) {
-          // When the expression is a nested transformation
+          /**
+           * Handles cases where the expression represents a nested transformation.
+           * 
+           * Nested transformations involve processing a sub-structure within 
+           * the data, allowing for complex, hierarchical modifications to be 
+           * applied seamlessly.
+           */
           let intermediateResultObject = {};
           dataObjectClone.pathTrace.push(field); // adding parent field to pathTrace
           dataObjectClone.isSubTransformation = true;
@@ -89,22 +125,35 @@ export const transform = async (
               ...intermediateResultObject,
               ...subResult,
             };
-            // Updating the derived state is all about placing the computed value at
-            // right place within the derived state to be able to use it immediately.
+            /**
+             * Updating the derived state involves placing the computed value 
+             * in the correct location within the derived state. 
+             * This ensures that the value is immediately available for use 
+             * wherever it is needed.
+             */
             _updateDerivedState(dataObjectClone.derived, subResult, pathTrace);
 
             dataObjectClone.pathTrace.pop(); // removing sub field from pathTrace
           }
 
-          if (!_isTemporaryField(field)) {
-            // Temporary fields never make their way into transformed output JSON.
-            // In other sense, Temporary fields help in selection and deselection of fields.
-            transformedOutput[field] = intermediateResultObject;
-          }
+          /**
+           * Temporary fields are excluded from the final transformed output JSON.
+           * 
+           * These fields serve a functional purpose during the transformation process, 
+           * aiding in the selection and deselection of specific fields without 
+           * impacting the resulting output.
+           */
+          transformedOutput[field] = _cleanTemporaryFields(intermediateResultObject);
           dataObjectClone.pathTrace.pop(); // removing parent field from pathTrace
           dataObjectClone.isSubTransformation = false;
         } else {
-          // When the expression is a simple string
+          /**
+           * Handles cases where the expression is a simple string.
+           * 
+           * Simple string expressions are evaluated directly, without the need 
+           * for additional processing or recursion, ensuring straightforward 
+           * transformations.
+           */
           let result = await mozjexl.eval(expression, { input, derived });
           if (result === undefined || result === null) {
             result = {
@@ -118,12 +167,15 @@ export const transform = async (
               "color:red"
             );
           }
-
-          if (!_isTemporaryField(field)) transformedOutput[field] = result;
-          // If inside a sub transformation, there is no need to update derived state
-          // of parent with updates made within the sub transformation.
-          // As it is already being handled by _updateDerivedState() already,
-          // once the recursion is complete.
+          if (!_isTemporaryField(field) || pathTrace.length > 0) transformedOutput[field] = result;
+          /**
+           * When working inside a sub-transformation, there is no need to explicitly 
+           * update the derived state of the parent with changes made within the 
+           * sub-transformation.
+           * 
+           * This is because the `_updateDerivedState()` function automatically handles 
+           * these updates once the recursive process is complete.
+           */
           if (!isSubTransformation) derived[field] = result;
         }
       } catch (error) {
@@ -133,7 +185,7 @@ export const transform = async (
         }
         const errorResult = { [Errors.TransformError]: formattedError };
         console.error(`%c${[Errors.TransformError]}: ${JSON.stringify(errorResult)}`, "color:red");
-        if (!_isTemporaryField(field)) transformedOutput[field] = errorResult;
+        if (!_isTemporaryField(field) || pathTrace.length > 0) transformedOutput[field] = errorResult;
         if (!isSubTransformation) derived[field] = errorResult;
       }
     }
@@ -172,10 +224,20 @@ export const _updateDerivedState = (
 };
 
 export const _isTemporaryField = (fieldName: string) => {
-  if (fieldName.startsWith("_")) {
+  if (fieldName.startsWith("_") && !_isSubTransformBlock(fieldName)) {
     return true;
   }
   return false;
+};
+
+export const _cleanTemporaryFields = (resultObject: Record<string,any>) => {
+  const cleanedResultObject: Record<string,any> = {};
+  for (const key in resultObject) {
+    if (!_isTemporaryField(key)) {
+      cleanedResultObject[key] = resultObject[key];
+    }
+  }
+  return cleanedResultObject;
 };
 
 export const _isSubTransformBlock = (fieldName: string) => {

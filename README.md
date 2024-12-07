@@ -11,7 +11,7 @@
     <img alt="license" src="https://img.shields.io/badge/license-MIT-blue">
   </a>
   <a href="https://github.com/yakshavingdevs/datadance/blob/main/LICENSE">
-    <img alt="version" src="https://img.shields.io/badge/version-1.0.1-blue">
+    <img alt="version" src="https://img.shields.io/badge/version-1.0.2-blue">
   </a><br><br>
 </div>
 
