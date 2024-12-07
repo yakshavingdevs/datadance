@@ -1,3 +1,5 @@
+// Copyright (c) 2024-Present The Yak Shaving Devs, MIT License
+
 import { getType, isRegExpExpression } from "../../utils.ts";
 import { Errors } from "../../constants.ts";
 

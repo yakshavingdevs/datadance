@@ -117,7 +117,7 @@ export default function Home() {
           </div>
           <div class="card mx-auto">
             <div class="card-body">
-              <h5 class="card-title mb-3">Install Datadance v1.0.1</h5>
+              <h5 class="card-title mb-3">Install Datadance v1.0.2</h5>
               <pre class="bg-dark p-3 rounded">
                 <code class="language-bash">npm install datadance</code>
               </pre>

@@ -188,7 +188,13 @@ mozjexl.addTransform("setMonth", SET_MONTH);
 mozjexl.addTransform("setYear", SET_YEAR);
 
 
-// This has to be loaded at last to mozjexl!... That is why placing it here.
+/**
+ * This must be loaded into the `mozjexl` object last, which is why 
+ * it is placed here.
+ * 
+ * Loading it last ensures that all dependencies or preceding configurations 
+ * are already in place, maintaining the correct order of operations.
+ */
 const EVALUATE_EXPRESSION = async (val: string, context: Record<any, any>) => {
   if (typeof val === "string") {
     const regex = /{{\s*(.+?)\s*}}/g;

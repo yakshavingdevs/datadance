@@ -1,3 +1,5 @@
+// Copyright (c) 2024-Present The Yak Shaving Devs, MIT License
+
 import { DateTime, Interval, Duration } from 'luxon';
 import { DateTimeFormatType, ErrorObject } from "../../types.ts";
 import { convertDateTime, getType, isValidDateTime } from "../../utils.ts";

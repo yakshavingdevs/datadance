@@ -12,7 +12,7 @@ await build({
     test: false,
     package: {
         name: "datadance",
-        version: "1.0.1",
+        version: "1.0.2",
         description: "DataDance is a versatile data processing package that makes handling JSON transformations straightforward and efficient. Our package accepts JSON input and allows you to define transformations using a code-like format. Provide your data and transformation rules, and DataDance will process them to deliver the desired output.",
         license: "MIT",
         type: "module",
