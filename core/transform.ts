@@ -167,7 +167,15 @@ export const transform = async (
               "color:red"
             );
           }
-          if (!_isTemporaryField(field) || pathTrace.length > 0) transformedOutput[field] = result;
+          /**
+           * When temporary fields are referenced elsewhere, 
+           * it is essential to remove these temporary variables 
+           * to maintain a clean and accurate state.
+           * 
+           * This ensures that temporary fields do not persist unnecessarily 
+           * or interfere with the final output.
+           */
+          if (!_isTemporaryField(field) || pathTrace.length > 0) transformedOutput[field] = typeof result === "object" && !Array.isArray(result) ? _cleanTemporaryFields(result) : result;
           /**
            * When working inside a sub-transformation, there is no need to explicitly 
            * update the derived state of the parent with changes made within the 
