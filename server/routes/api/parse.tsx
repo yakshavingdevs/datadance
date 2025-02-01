@@ -1,11 +1,11 @@
 import { Handlers } from "$fresh/server.ts";
-import { parseTransforms } from "../../utils/parser.ts";
+import { ddsToJson } from "../../../core/dds.ts";
 
 export const handler: Handlers = {
   async POST(request) {
     try {
       const data = await request.text();
-      const parsedTransformsData = parseTransforms(data);
+      const parsedTransformsData = ddsToJson(data);
       return new Response(JSON.stringify(parsedTransformsData), {
         status: 200,
         headers: { "Content-Type": "application/json" },

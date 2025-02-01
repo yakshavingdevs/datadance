@@ -4,10 +4,10 @@ import ace from "ace-builds";
 import Dracula from "ace-builds/src-noconflict/theme-dracula";
 import "ace-builds/src-noconflict/ext-language_tools";
 import { transform } from "../../../core/transform.ts";
-import { DataObject } from "../../../core/types.ts";
+import { DataObject, MergeMethod } from "../../../core/types.ts";
 import { SerialOperations } from "../../../core/types.ts";
 import { highlight } from "../../utils/highlight_json.ts";
-import { parseTransforms } from "../../utils/parser.ts";
+import { ddsToJson } from "../../../core/dds.ts";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 
 ace.config.set("basePath", "https://esm.sh/ace-builds@1.35.4/src-noconflict");
@@ -69,13 +69,13 @@ const Playground = () => {
     getLocalStorageItem("transforms") || sampleTransforms
   );
   const [output, setOutput] = useState<string>("");
-  const [mergeMethod, setMergeMethod] = useState<string>(
-    getLocalStorageItem("mergeMethod") || "overwrite"
+  const [mergeMethod, setMergeMethod] = useState<MergeMethod>(
+    getLocalStorageItem("mergeMethod") as MergeMethod || "overwrite"
   );
   const [errorMessage, setErrorMessage] = useState<string>("");
   const transformsRef = useRef<HTMLDivElement>(null);
   const outputRef = useRef<HTMLPreElement>(null);
-  const editorRef = useRef<AceEditor | null>(null);
+  const editorRef = useRef<typeof AceEditor | null>(null);
 
   const throttle = <T extends (...args: any[]) => void>(
     func: T,
@@ -118,7 +118,7 @@ const Playground = () => {
         ace.config.loadModule("ace/mode/yaml", (yamlMode: any) => {
           editor.session.setMode(new yamlMode.Mode());
         });
-        editor.session.on("change", async () => {
+        editor.session.on("change", () => {
           const newTransforms = editor.getValue();
           setTransforms(newTransforms);
           handleTransform(newTransforms);
@@ -182,7 +182,7 @@ const Playground = () => {
   }, [mergeMethod]);
 
   const parseTransformsHelper = (transforms: string): SerialOperations => {
-    const result = parseTransforms(transforms);
+    const result = ddsToJson(transforms);
     if (result.length === 1 && Object.keys(result[0])[0] === "error") {
       setErrorMessage(result[0]["error"].toString());
     } else {
@@ -202,7 +202,7 @@ const Playground = () => {
   function handleCopyTransforms(event: any) {
     try {
       navigator.clipboard.writeText(
-        JSON.stringify(parseTransforms(transforms), null, 2)
+        JSON.stringify(ddsToJson(transforms), null, 2)
       );
     } catch (error) {
       console.log(

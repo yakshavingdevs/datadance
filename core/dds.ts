@@ -1,9 +1,37 @@
-import { SerialOperations } from "../../core/types.ts";
+import { DataObject, DdsDataObject, SerialOperations } from "./types.ts";
 
+export function jsonToDds(transformsJsonArray: SerialOperations, indent: number = 0): string {
+    let transformsDds = '';
+    const spaces = '  '; // 2 spaces for indentation
 
-export const parseTransforms = (transforms: string): SerialOperations => {
+    transformsJsonArray.forEach(item => {
+        if (typeof item === 'object' && !Array.isArray(item)) {
+            for (const key in item) {
+                if (typeof item[key] === 'object' && !Array.isArray(item[key])) {
+                    transformsDds += `${spaces.repeat(indent)}${key}:\n`;
+                    transformsDds += jsonToDds([item[key]], indent + 1);
+                } else if (Array.isArray(item[key])) {
+                    transformsDds += `${spaces.repeat(indent)}${key}:\n`;
+                    item[key].forEach(subItem => {
+                        if (typeof subItem === 'object') {
+                            transformsDds += `${spaces.repeat(indent + 1)}  ${jsonToDds([subItem], indent + 2).trim()}\n`;
+                        } else {
+                            transformsDds += `${spaces.repeat(indent + 1)}  ${subItem}\n`;
+                        }
+                    });
+                } else {
+                    transformsDds += `${spaces.repeat(indent)}${key}: ${item[key]}\n`;
+                }
+            }
+        }
+    });
+
+    return transformsDds;
+};
+
+export const ddsToJson = (transformsDds: string): SerialOperations => {
     try {
-        const lines = transforms.split("\n");
+        const lines = transformsDds.split("\n");
         const result: SerialOperations = [];
         const stack = [{ indent: -1, object: result }];
         let errorMessage = "";
@@ -51,7 +79,7 @@ export const parseTransforms = (transforms: string): SerialOperations => {
                 currentParent.push(newEntry);
 
                 if (!value) {
-                    stack.push({ indent, object: newEntry[key] });
+                    stack.push({ indent, object: newEntry[key] as SerialOperations });
                 }
             }
         });
@@ -66,3 +94,7 @@ export const parseTransforms = (transforms: string): SerialOperations => {
         return [{ error: error }];
     }
 };
+
+export const isDdsDataObject = (data: DataObject): data is DdsDataObject => {
+    return data.settings.transforms_syntax === "dds";
+}

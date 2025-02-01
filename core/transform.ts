@@ -8,14 +8,23 @@
  * by providing additional utilities.
  */
 import mozjexl from "./load_lib.ts";
-import { DataObject, ErrorObject, Expression } from "./types.ts";
+import { DataObject, ErrorObject, Expression, SerialOperations } from "./types.ts";
 import { Errors } from "./constants.ts";
+import { ddsToJson, isDdsDataObject } from "./dds.ts";
 
 export const transform = async (
   dataObject: DataObject
 ): Promise<Record<string, any> | ErrorObject> => {
   try {
-    const { input, transforms, settings } = dataObject;
+    let transforms: SerialOperations;
+
+    if (isDdsDataObject(dataObject)) {
+      transforms = ddsToJson(dataObject.transforms)
+    } else {
+      transforms = dataObject.transforms;
+    }
+
+    const { input, settings } = dataObject;
 
     const derived: Record<string, any> =
       dataObject.derived !== undefined ? dataObject.derived : { ...input };

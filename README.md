@@ -78,6 +78,16 @@ test();
   ```
 - Then you can either play with the API [http://localhost:8000/process](http://localhost:8000/process) or experience playground [http://localhost:8000/design/build](http://localhost:8000/design/build).
 
+Disclaimer: This package only works with Deno 1.x at the moment.
+
+Deno 1.46.3 is the last known 1.x version that was released.
+
+So, if you already have Deno 2 installed, to downgrade, run:
+
+```
+deno upgrade --version 1.46.3
+```
+
 ### Where Datadance Shines?
 
 In many ETL pipeline scenarios, executing third-party or user-provided code can be both an operational and security challenge. Managing and isolating this code often becomes a complex task. DataDance solves this problem by offering a unique solution where third-party or user logic is expressed as DataDance transforms. These transforms are easy to maintain and eliminate the need for a traditional programming language shell. Internally, DataDance uses a parser that executes the specified transforms on the input JSON and produces an output JSON, ensuring both simplicity and security.
