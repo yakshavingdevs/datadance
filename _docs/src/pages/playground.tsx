@@ -135,18 +135,20 @@ function PanelSection({
     <div style={{
       flex: flex ?? "1",
       minHeight: minHeight ?? 0,
-      border: "1px solid var(--ifm-color-emphasis-300)",
-      borderRadius: "8px",
+      border: "1px solid var(--ifm-color-emphasis-200)",
+      borderRadius: "10px",
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",
+      boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
     }}>
       <div style={{
-        padding: "0.5rem 0.75rem",
-        borderBottom: "1px solid var(--ifm-color-emphasis-300)",
-        fontSize: "0.9rem",
+        padding: "0.55rem 0.85rem",
+        borderBottom: "1px solid var(--ifm-color-emphasis-200)",
+        fontSize: "0.88rem",
         fontWeight: 600,
         background: "var(--ifm-background-surface-color)",
+        letterSpacing: "-0.01em",
       }}>
         {title}
       </div>
@@ -217,7 +219,7 @@ function PlaygroundContent() {
 
   const btnStyle: React.CSSProperties = {
     border: "1px solid var(--ifm-color-emphasis-300)",
-    borderRadius: "6px",
+    borderRadius: "8px",
     padding: "6px 16px",
     fontSize: "0.85rem",
     cursor: "pointer",
@@ -225,39 +227,43 @@ function PlaygroundContent() {
     color: "var(--ifm-font-color-base)",
     fontWeight: 500,
     lineHeight: 1.5,
+    transition: "all 0.2s ease",
   };
   const btnPrimaryStyle: React.CSSProperties = {
     ...btnStyle,
-    background: "var(--ifm-color-primary)",
+    background: "linear-gradient(135deg, var(--ifm-color-primary) 0%, var(--ifm-color-primary-lighter) 100%)",
     color: "#fff",
-    border: "1px solid var(--ifm-color-primary)",
+    border: "1px solid transparent",
+    boxShadow: "0 2px 8px rgba(108, 92, 231, 0.25)",
   };
 
   return (
-    <div style={{ padding: "0.5rem 0 2rem" }}>
+    <div style={{ padding: "0.75rem 0 2.5rem" }}>
       <div className="container">
         <div style={{
           display: "flex",
-          gap: "1rem",
+          gap: "1.25rem",
           height: "calc(100vh - 200px)",
           minHeight: "580px",
         }}>
-          <div style={{ flex: "1", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+          <div style={{ flex: "1", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
             <div style={{
               height: "40%",
               minHeight: "200px",
-              border: "1px solid var(--ifm-color-emphasis-300)",
-              borderRadius: "8px",
+              border: "1px solid var(--ifm-color-emphasis-200)",
+              borderRadius: "10px",
               display: "flex",
               flexDirection: "column",
               overflow: "hidden",
+              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
             }}>
               <div style={{
-                padding: "0.5rem 0.75rem",
-                borderBottom: "1px solid var(--ifm-color-emphasis-300)",
-                fontSize: "0.9rem",
+                padding: "0.55rem 0.85rem",
+                borderBottom: "1px solid var(--ifm-color-emphasis-200)",
+                fontSize: "0.88rem",
                 fontWeight: 600,
                 background: "var(--ifm-background-surface-color)",
+                letterSpacing: "-0.01em",
               }}>
                 Input JSON
               </div>
@@ -271,7 +277,7 @@ function PlaygroundContent() {
               alignItems: "center",
               gap: "0.5rem",
               flexWrap: "wrap",
-              padding: "0.4rem 0",
+              padding: "0.5rem 0",
             }}>
               <span style={{ fontSize: "0.85rem", fontWeight: 600, whiteSpace: "nowrap", color: "var(--ifm-color-emphasis-700)" }}>
                 Merge:
@@ -316,21 +322,23 @@ function PlaygroundContent() {
 
           <div style={{
             flex: "1",
-            border: "1px solid var(--ifm-color-emphasis-300)",
-            borderRadius: "8px",
+            border: "1px solid var(--ifm-color-emphasis-200)",
+            borderRadius: "10px",
             display: "flex",
             flexDirection: "column",
             overflow: "hidden",
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
           }}>
             <div style={{
-              padding: "0.5rem 0.75rem",
-              borderBottom: "1px solid var(--ifm-color-emphasis-300)",
-              fontSize: "0.9rem",
+              padding: "0.55rem 0.85rem",
+              borderBottom: "1px solid var(--ifm-color-emphasis-200)",
+              fontSize: "0.88rem",
               fontWeight: 600,
               background: "var(--ifm-background-surface-color)",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
+              letterSpacing: "-0.01em",
             }}>
               <span>Output</span>
               <button
@@ -375,19 +383,30 @@ export default function PlaygroundPage() {
   return (
     <Layout title="Playground" description="Interactive playground for Datadance transforms">
       <div style={{
-        background: "linear-gradient(135deg, var(--ifm-color-primary-darkest) 0%, var(--ifm-color-primary) 100%)",
+        background: "linear-gradient(135deg, #0f0c29 0%, #1a1a40 40%, #302b63 100%)",
         color: "#fff",
-        padding: "1.5rem 0",
+        padding: "2rem 0",
         textAlign: "center",
+        position: "relative",
+        overflow: "hidden",
       }}>
-        <div className="container">
-          <h1 style={{ margin: 0, fontSize: "2rem" }}>Playground</h1>
-          <p style={{ margin: "0.25rem 0 0", opacity: 0.9, fontSize: "1rem" }}>
+        <div style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: "linear-gradient(rgba(108, 92, 231, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(108, 92, 231, 0.06) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+          maskImage: "radial-gradient(ellipse at center, black 30%, transparent 80%)",
+          WebkitMaskImage: "radial-gradient(ellipse at center, black 30%, transparent 80%)",
+          pointerEvents: "none",
+        }} />
+        <div className="container" style={{ position: "relative" }}>
+          <h1 style={{ margin: 0, fontSize: "2.2rem", fontWeight: 800, letterSpacing: "-0.03em" }}>Playground</h1>
+          <p style={{ margin: "0.4rem 0 0", opacity: 0.65, fontSize: "1.05rem" }}>
             Experiment with Datadance transforms interactively
           </p>
         </div>
       </div>
-      <BrowserOnly fallback={<div className="container" style={{ padding: "2rem", textAlign: "center" }}>Loading playground...</div>}>
+      <BrowserOnly fallback={<div className="container" style={{ padding: "2rem", textAlign: "center", color: "var(--ifm-color-emphasis-500)" }}>Loading playground...</div>}>
         {() => <PlaygroundContent />}
       </BrowserOnly>
     </Layout>
