@@ -9,7 +9,8 @@
     "preview": "deno run -A --unstable-kv server/main.ts",
     "update": "deno run -A -r https://fresh.deno.dev/update .",
     "compile": "deno compile --output ./bin/datadance ./cli/index.ts",
-    "build-package": "deno run -A build.ts"
+    "build-package": "deno run -A build.ts",
+    "test": "deno test -A --no-check core/tests/"
   },
   "lint": { "rules": { "tags": ["fresh", "recommended"] } },
   "exclude": ["**/_fresh/*"],
