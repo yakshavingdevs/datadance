@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
+import { Highlight, themes } from "prism-react-renderer";
 
 const features = [
   {
@@ -146,9 +147,19 @@ export default function Home(): ReactNode {
                 <div className="dd-code-dot" />
                 <span>example.js</span>
               </div>
-              <pre>
-                <code>{codeExample}</code>
-              </pre>
+              <Highlight theme={themes.dracula} code={codeExample} language="js">
+                {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                  <pre className={className} style={{ ...style, background: "transparent", margin: 0, border: "none" }}>
+                    {tokens.map((line, i) => (
+                      <div key={i} {...getLineProps({ line, key: i })}>
+                        {line.map((token, key) => (
+                          <span key={key} {...getTokenProps({ token, key })} />
+                        ))}
+                      </div>
+                    ))}
+                  </pre>
+                )}
+              </Highlight>
             </div>
           </div>
         </div>

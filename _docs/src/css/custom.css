@@ -77,18 +77,55 @@ a {
 }
 
 /* ---------- Navbar ---------- */
+/* NOTE: no backdrop-filter here on purpose — on mobile it would create a new
+   containing block for the position:fixed navbar-sidebar rendered inside the
+   navbar, trapping it at navbar height and hiding the menu (see below). */
 .navbar {
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  background: var(--dd-glass-bg) !important;
+  background: rgba(255, 255, 255, 0.92) !important;
   border-bottom: 1px solid var(--dd-glass-border);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   padding-top: 0.35rem;
   padding-bottom: 0.35rem;
 }
 
 [data-theme="dark"] .navbar {
+  background: rgba(21, 21, 32, 0.92) !important;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Glass blur is desktop-only: the mobile sidebar never shows there, so the
+   backdrop-filter containing-block side effect can't break anything. */
+@media (min-width: 997px) {
+  .navbar {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background: var(--dd-glass-bg) !important;
+  }
+
+  [data-theme="dark"] .navbar {
+    background: var(--dd-glass-bg) !important;
+  }
+}
+
+/* Mobile sidebar — solid background, no glass */
+.navbar-sidebar {
+  background: #fff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+[data-theme="dark"] .navbar-sidebar {
+  background: #151520 !important;
+}
+
+.navbar-sidebar__brand {
+  background: #fff !important;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+[data-theme="dark"] .navbar-sidebar__brand {
+  background: #151520 !important;
+  border-bottom-color: var(--ifm-color-emphasis-300);
 }
 
 .navbar__title {
@@ -166,9 +203,14 @@ a {
   border-radius: 6px !important;
   font-size: 0.88rem;
   font-weight: 450;
-  padding: 0.4rem 0.75rem;
+  padding: 0.6rem 0.75rem;
   transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   border-left: 2px solid transparent;
+}
+
+.menu__list-item {
+  margin-top: 0.15rem;
+  margin-bottom: 0.15rem;
 }
 
 .menu__link:hover {
@@ -219,16 +261,21 @@ code {
 }
 
 div.codeBlockContainer_node_modules-\@docusaurus-theme-classic-src-theme-CodeBlock-,
-pre,
 .codeBlockContainer_xw3p {
   border: 1px solid var(--ifm-color-emphasis-200);
   border-radius: 10px !important;
+  /* Clips the header/copy button to the rounded corners; the pre inside scrolls */
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
+pre {
+  border-radius: 10px !important;
+  /* Must stay scrollable — overflow:hidden here clips long lines on mobile */
+  overflow: auto;
+}
+
 [data-theme="dark"] div.codeBlockContainer_node_modules-\@docusaurus-theme-classic-src-theme-CodeBlock-,
-[data-theme="dark"] pre,
 [data-theme="dark"] .codeBlockContainer_xw3p {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
   border-color: var(--ifm-color-emphasis-300);
@@ -575,7 +622,7 @@ pre code {
 /* ---------- Homepage Feature Cards ---------- */
 .dd-features {
   padding: 5rem 0;
-  background: var(--dd-surface);
+  background: #f8f9fc;
   position: relative;
 }
 
@@ -605,7 +652,7 @@ pre code {
 
 .dd-feature-card {
   background: #fff;
-  border: 1px solid var(--ifm-color-emphasis-200);
+  border: 1px solid #e5e7eb;
   border-radius: 14px;
   padding: 1.75rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -620,15 +667,15 @@ pre code {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--dd-accent), var(--dd-pink));
+  background: linear-gradient(90deg, #6c5ce7, #fd79a8);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .dd-feature-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(108, 92, 231, 0.1);
-  border-color: rgba(108, 92, 231, 0.2);
+  box-shadow: 0 12px 32px rgba(108, 92, 231, 0.12);
+  border-color: rgba(108, 92, 231, 0.25);
 }
 
 .dd-feature-card:hover::before {
@@ -637,12 +684,12 @@ pre code {
 
 [data-theme="dark"] .dd-feature-card {
   background: #1a1a2e;
-  border-color: rgba(162, 155, 254, 0.1);
+  border-color: rgba(162, 155, 254, 0.12);
 }
 
 [data-theme="dark"] .dd-feature-card:hover {
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-  border-color: rgba(162, 155, 254, 0.25);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  border-color: rgba(162, 155, 254, 0.3);
 }
 
 .dd-feature-icon {
@@ -654,13 +701,13 @@ pre code {
   justify-content: center;
   font-size: 1.4rem;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(162, 155, 254, 0.1));
-  color: var(--dd-accent);
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.12), rgba(162, 155, 254, 0.12));
+  color: #6c5ce7;
 }
 
 [data-theme="dark"] .dd-feature-icon {
-  background: linear-gradient(135deg, rgba(162, 155, 254, 0.15), rgba(108, 92, 231, 0.15));
-  color: var(--dd-accent-2);
+  background: linear-gradient(135deg, rgba(162, 155, 254, 0.18), rgba(108, 92, 231, 0.18));
+  color: #a29bfe;
 }
 
 .dd-feature-card h3 {
@@ -698,12 +745,21 @@ pre code {
   font-weight: 800;
   letter-spacing: -0.03em;
   margin-bottom: 0.75rem;
+  color: #1a1a2e;
+}
+
+[data-theme="dark"] .dd-code-preview h2 {
+  color: #fff;
 }
 
 .dd-code-preview p {
-  color: var(--ifm-color-emphasis-600);
+  color: #555;
   font-size: 1.1rem;
   margin-bottom: 2.5rem;
+}
+
+[data-theme="dark"] .dd-code-preview p {
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .dd-code-window {
@@ -789,6 +845,63 @@ pre code {
   font-size: 1.15rem;
   margin-bottom: 2rem;
   position: relative;
+}
+
+/* ---------- Playground Layout ---------- */
+.dd-pg {
+  display: flex;
+  gap: 1.25rem;
+  height: calc(100vh - 200px);
+  min-height: 580px;
+}
+
+.dd-pg-main {
+  flex: 1;
+  min-width: 0; /* lets Monaco shrink instead of overflowing the column */
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.dd-pg-input {
+  height: 40%;
+  min-height: 200px;
+}
+
+.dd-pg-transforms {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dd-pg-output {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Stack panels vertically on mobile, each with a usable fixed height */
+@media (max-width: 996px) {
+  .dd-pg {
+    flex-direction: column;
+    height: auto;
+    min-height: 0;
+  }
+
+  .dd-pg-input {
+    height: 280px;
+    min-height: 0;
+  }
+
+  .dd-pg-transforms {
+    flex: none;
+    height: 320px;
+  }
+
+  .dd-pg-output {
+    flex: none;
+    height: 340px;
+  }
 }
 
 /* ---------- Responsive ---------- */

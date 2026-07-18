@@ -240,23 +240,19 @@ function PlaygroundContent() {
   return (
     <div style={{ padding: "0.75rem 0 2.5rem" }}>
       <div className="container">
-        <div style={{
-          display: "flex",
-          gap: "1.25rem",
-          height: "calc(100vh - 200px)",
-          minHeight: "580px",
-        }}>
-          <div style={{ flex: "1", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-            <div style={{
-              height: "40%",
-              minHeight: "200px",
-              border: "1px solid var(--ifm-color-emphasis-200)",
-              borderRadius: "10px",
-              display: "flex",
-              flexDirection: "column",
-              overflow: "hidden",
-              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
-            }}>
+        <div className="dd-pg">
+          <div className="dd-pg-main">
+            <div
+              className="dd-pg-input"
+              style={{
+                border: "1px solid var(--ifm-color-emphasis-200)",
+                borderRadius: "10px",
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden",
+                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
+              }}
+            >
               <div style={{
                 padding: "0.55rem 0.85rem",
                 borderBottom: "1px solid var(--ifm-color-emphasis-200)",
@@ -315,20 +311,24 @@ function PlaygroundContent() {
               <button style={btnStyle} onClick={handleReset}>Reset</button>
             </div>
 
-            <PanelSection title="Transforms (DDS Syntax)">
-              <MonacoWrapper value={transforms} onChange={setTransforms} language="yaml" />
-            </PanelSection>
+            <div className="dd-pg-transforms">
+              <PanelSection title="Transforms (DDS Syntax)">
+                <MonacoWrapper value={transforms} onChange={setTransforms} language="yaml" />
+              </PanelSection>
+            </div>
           </div>
 
-          <div style={{
-            flex: "1",
-            border: "1px solid var(--ifm-color-emphasis-200)",
-            borderRadius: "10px",
-            display: "flex",
-            flexDirection: "column",
-            overflow: "hidden",
-            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
-          }}>
+          <div
+            className="dd-pg-output"
+            style={{
+              border: "1px solid var(--ifm-color-emphasis-200)",
+              borderRadius: "10px",
+              display: "flex",
+              flexDirection: "column",
+              overflow: "hidden",
+              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
+            }}
+          >
             <div style={{
               padding: "0.55rem 0.85rem",
               borderBottom: "1px solid var(--ifm-color-emphasis-200)",
