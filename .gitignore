@@ -17,3 +17,10 @@ node_modules/
 /npm
 
 bin
+
+# LLM assisted QA
+.playwright-mcp
+
+# Docs related gitignore
+_docs/.docusaurus
+_docs/build
