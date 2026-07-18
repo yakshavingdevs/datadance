@@ -7,7 +7,7 @@ const config: Config = {
   tagline: "Simple, open-source JSON data transformation tool",
   favicon: "img/favicon.ico",
 
-  url: "https://docs.datadance.org",
+  url: "https://datadance.org",
   baseUrl: "/",
 
   organizationName: "yakshavingdevs",

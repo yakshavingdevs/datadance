@@ -49,7 +49,7 @@ export default function App({ Component }: PageProps) {
                     </a>
                   </li>
                   <li>
-                    <a href="https://docs.datadance.app" class="nav-link">
+                    <a href="https://datadance.org" class="nav-link">
                       Docs
                     </a>
                   </li>

@@ -82,7 +82,7 @@ export default function Home() {
                 &nbsp;&nbsp;
                 <button type="button" class="btn btn-outline-secondary">
                   <a
-                    href="https://docs.datadance.app/"
+                    href="https://datadance.org/"
                     target="_blank"
                     style={{
                       "text-decoration": "none",

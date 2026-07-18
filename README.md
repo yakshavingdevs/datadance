@@ -1,12 +1,12 @@
 <div align="center">
    
-  <a href="https://datadance.app">
+  <a href="https://datadance.org">
   <img src="server/static/logo.png" alt="Datadance Logo" height="200" />
   </a>
 
   <h3>Datadance</h3>
   <p>Simple, open-source JSON data transformation tool</p>
-  <a href="https://datadance.app/design/build"><b>Playground</b></a>&nbsp;•&nbsp;<a href="https://datadance.app/api/reference"><b>API Reference</b></a>&nbsp;•&nbsp;<a href="https://docs.datadance.app"><b>Docs</b></a><br><br>
+  <a href="https://datadance.org/design/build"><b>Playground</b></a>&nbsp;•&nbsp;<a href="https://datadance.org/api/reference"><b>API Reference</b></a>&nbsp;•&nbsp;<a href="https://datadance.org"><b>Docs</b></a><br><br>
   <a href="https://github.com/yakshavingdevs/datadance/blob/main/LICENSE">
     <img alt="license" src="https://img.shields.io/badge/license-MIT-blue">
   </a>
