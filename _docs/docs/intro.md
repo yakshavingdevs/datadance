@@ -19,6 +19,81 @@ Datadance is designed for **ETL pipeline scenarios** where executing third-party
 
 ## How it works
 
+Datadance takes your **Input JSON**, applies a series of **transforms**, and produces an **Output JSON**.
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+<TabItem value="input" label="Input" default>
+
+```json
+{
+  "name": {
+    "first": "Malory",
+    "last": "Archer"
+  },
+  "exes": [
+    "Nikolai Jakov",
+    "Len Trexler",
+    "Burt Reynolds"
+  ],
+  "lastEx": 2
+}
+```
+
+</TabItem>
+<TabItem value="output" label="Output">
+
+```json
+{
+  "name": {
+    "first": "Malory",
+    "last": "Archer"
+  },
+  "exes": [
+    "Nikolai Jakov",
+    "Len Trexler",
+    "Burt Reynolds"
+  ],
+  "lastEx": 7,
+  "original": 2,
+  "modified": 7
+}
+```
+
+</TabItem>
+<TabItem value="transforms-json" label="Transforms (JSON)">
+
+```json
+[
+  { "lastEx": "input.lastEx + 5" },
+  { "original": "input.lastEx" },
+  { "modified": "derived.lastEx" }
+]
+```
+
+</TabItem>
+<TabItem value="transforms-dds" label="Transforms (DDS)">
+
+```yaml
+lastEx: input.lastEx + 5
+original: input.lastEx
+modified: derived.lastEx
+```
+
+</TabItem>
+</Tabs>
+
+:::info Input vs Derived
+
+- **`input`** — Immutable reference to the original data. `input.lastEx` always returns `2`.
+- **`derived`** — Mutable state that accumulates changes. `derived.lastEx` returns `7` after the first transform runs.
+
+:::
+
+## Usage
+
 ```js
 import { transform } from "datadance";
 
@@ -30,13 +105,6 @@ const result = await transform({
 
 console.log(result); // { x: 10 }
 ```
-
-You provide:
-- **input** — Your source JSON data
-- **transforms** — An array of field-to-expression mappings
-- **settings** — Configuration like the merge method
-
-Datadance evaluates each expression against the input and derived contexts, producing the transformed output.
 
 ## Links
 

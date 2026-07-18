@@ -4,42 +4,45 @@ The simplest way to use Datadance is with the `transform` function.
 
 ## Basic example
 
-```js
-import { transform } from "datadance";
+When you call `transform`, you provide your data (input), the operations to perform (transforms), and how to merge the result (settings).
 
-const result = await transform({
-  input: { name: "Alice", score: 85 },
-  transforms: [
-    { name: "upper(input.name)" },
-    { score: "input.score + 15" },
-    { grade: "input.score >= 90 ? 'A' : 'B'" },
-  ],
-  settings: { merge_method: "overwrite" },
-});
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-console.log(result);
-// { name: "ALICE", score: 100, grade: "B" }
+<Tabs>
+<TabItem value="input" label="Input" default>
+
+```json
+{
+  "name": "Alice",
+  "score": 85
+}
 ```
 
-## Breaking it down
+</TabItem>
+<TabItem value="output" label="Output">
 
-| Property | Description |
-|---|---|
-| `input` | The source JSON object |
-| `transforms` | Array of transform objects, each with a single key-value pair |
-| `settings` | Configuration object (e.g., merge method) |
+```json
+{
+  "name": "ALICE",
+  "score": 100,
+  "grade": "B"
+}
+```
 
-## Merge methods
+</TabItem>
+<TabItem value="transforms-json" label="Transforms (JSON)">
 
-The `merge_method` setting controls how the output is combined with the input:
+```json
+[
+  { "name": "upper(input.name)" },
+  { "score": "input.score + 15" },
+  { "grade": "input.score >= 90 ? 'A' : 'B'" }
+]
+```
 
-- **`overwrite`** (default) — Merges transformed fields into input, overwriting existing keys
-- **`preserve`** — Returns input unchanged, with transformed fields nested under a `transforms` key
-- **`transforms_only`** — Returns only the transformed fields, discarding all input data
-
-## Using DDS syntax
-
-Instead of JSON, you can write transforms using Datadance Syntax (DDS), a YAML-like format:
+</TabItem>
+<TabItem value="transforms-dds" label="Transforms (DDS)">
 
 ```yaml
 name: upper(input.name)
@@ -47,16 +50,51 @@ score: input.score + 15
 grade: input.score >= 90 ? 'A' : 'B'
 ```
 
-Pass it with `transforms_syntax: "dds"` in settings:
+</TabItem>
+</Tabs>
+
+:::note Transform structure
+
+Each transform is an object with **exactly one key**. The key is the output field name, and the value is either a MozJexl expression string or an array of nested transforms.
+
+:::
+
+## Merge methods
+
+The `merge_method` setting controls how the output is combined with the input:
+
+| Method | Behaviour |
+|---|---|
+| `overwrite` | Transformed fields replace matching input keys. Unchanged input fields are preserved. |
+| `preserve` | Original input is returned as-is. Transformed fields are nested under a `transforms` key. |
+| `transforms_only` | Only transformed fields are returned. All input data is discarded. |
+
+## Using DDS syntax
+
+Instead of JSON, you can write transforms in Datadance Syntax (DDS), a YAML-like format:
+
+<Tabs>
+<TabItem value="dds" label="DDS" default>
+
+```yaml
+name: upper(input.name)
+score: input.score + 15
+```
+
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
 
 ```js
 const result = await transform({
   input: { name: "Alice", score: 85 },
-  transforms: `name: upper(input.name)\nscore: input.score + 15`,
+  transforms: "name: upper(input.name)\nscore: input.score + 15",
   settings: { merge_method: "overwrite", transforms_syntax: "dds" },
 });
 ```
 
+</TabItem>
+</Tabs>
+
 ## Interactive Playground
 
-Visit the [Playground](/playground) to experiment with transforms interactively.
+Try it live in the [Playground](/playground) — edit input, write transforms, and see results instantly.

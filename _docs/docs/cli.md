@@ -28,6 +28,12 @@ This produces a binary at `./bin/datadance`.
 
 ### Example
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+<TabItem value="command" label="Command" default>
+
 ```bash
 ./bin/datadance \
   -i '{"hello": "world"}' \
@@ -35,8 +41,12 @@ This produces a binary at `./bin/datadance`.
   -s '{"merge_method": "overwrite"}'
 ```
 
-Output:
+</TabItem>
+<TabItem value="output" label="Output">
 
 ```json
-{ hello: "world", also: "hello world" }
+{ "hello": "world", "also": "hello world" }
 ```
+
+</TabItem>
+</Tabs>

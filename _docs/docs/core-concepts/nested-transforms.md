@@ -8,6 +8,37 @@ A nested transform takes the current field's value (expected to be an object), a
 
 ## Example
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+<TabItem value="input" label="Input" default>
+
+```json
+{
+  "address": {
+    "street": "123 main st",
+    "city": "springfield"
+  }
+}
+```
+
+</TabItem>
+<TabItem value="output" label="Output">
+
+```json
+{
+  "address": {
+    "street": "123 MAIN ST",
+    "city": "SPRINGFIELD",
+    "full": "123 MAIN ST, SPRINGFIELD"
+  }
+}
+```
+
+</TabItem>
+<TabItem value="transforms-json" label="Transforms (JSON)">
+
 ```json
 [
   {
@@ -20,21 +51,23 @@ A nested transform takes the current field's value (expected to be an object), a
 ]
 ```
 
-With input `{ address: { street: "123 main st", city: "springfield" } }`, the result is:
+</TabItem>
+<TabItem value="transforms-dds" label="Transforms (DDS)">
 
-```json
-{
-  "address": {
-    "street": "123 MAIN ST",
-    "city": "SPRINGFIELD",
-    "full": "123 MAIN ST, SPRINGFIELD"
-  }
-}
+```yaml
+address:
+  street: upper(input.address.street)
+  city: upper(input.address.city)
+  full: derived.street + ', ' + derived.city
 ```
+
+</TabItem>
+</Tabs>
 
 ## Nested context
 
 Inside a nested transform:
+
 - `input` still refers to the **original root input**
 - `derived` starts as a clone of the nested object's value
 - Path tracing automatically updates the derived state

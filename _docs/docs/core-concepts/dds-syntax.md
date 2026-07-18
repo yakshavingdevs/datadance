@@ -4,16 +4,21 @@ DDS (Datadance Syntax) is a YAML-like alternative to writing transforms in JSON.
 
 ## Writing transforms in DDS
 
+Each line defines one transform: a field name followed by a colon and the expression.
+
 ```yaml
 field1: expression1
 field2: expression2
 ```
 
-Each line defines one transform: a field name followed by a colon and the expression.
-
 ## Example
 
-**JSON transforms:**
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+<TabItem value="json" label="JSON" default>
+
 ```json
 [
   { "fullName": "input.first + ' ' + input.last" },
@@ -21,11 +26,16 @@ Each line defines one transform: a field name followed by a colon and the expres
 ]
 ```
 
-**DDS equivalent:**
+</TabItem>
+<TabItem value="dds" label="DDS">
+
 ```yaml
 fullName: input.first + ' ' + input.last
 age: input.age | parseInt
 ```
+
+</TabItem>
+</Tabs>
 
 ## Using DDS with the API
 
@@ -43,13 +53,17 @@ Set `transforms_syntax: "dds"` in the settings and pass the transforms as a stri
 
 Indentation (2 spaces) defines nesting:
 
+<Tabs>
+<TabItem value="dds" label="DDS" default>
+
 ```yaml
 address:
   street: upper(input.address.street)
   city: upper(input.address.city)
 ```
 
-This is equivalent to:
+</TabItem>
+<TabItem value="json" label="Equivalent JSON">
 
 ```json
 [
@@ -62,16 +76,21 @@ This is equivalent to:
 ]
 ```
 
+</TabItem>
+</Tabs>
+
 ## Rules
 
-- Indentation must be in **multiples of 2 spaces** (no tabs)
-- Field names can only use alphanumeric characters, underscores, and dollar signs
-- String literals use **single quotes**, not double quotes
-- Values without a colon create a nested transform block
+| Rule | Detail |
+|---|---|
+| Indentation | Must be in **multiples of 2 spaces** (no tabs) |
+| Field names | Only alphanumeric, underscores, and dollar signs |
+| String literals | Use **single quotes**, not double quotes |
+| Values without colon | Creates a nested transform block |
 
 ## Converting between formats
 
-Datadance provides API endpoints for conversion:
+Use the dedicated endpoints for conversion:
 
 - **DDS → JSON**: `POST /api/parse` with DDS text as the body
 - **JSON → DDS**: `POST /api/encode` with JSON transforms as the body

@@ -8,12 +8,35 @@ Unlike temporary fields (`_`-prefixed), sub-transform blocks are not evaluated i
 
 ## Example
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+<TabItem value="input" label="Input" default>
+
+```json
+{ "price": 150 }
+```
+
+</TabItem>
+<TabItem value="output" label="Output">
+
+```json
+{ "finalPrice": 135 }
+```
+
+</TabItem>
+<TabItem value="transforms" label="Transforms">
+
 ```json
 [
   { "_$calculateDiscount": "input.price > 100 ? 0.1 : 0.05" },
   { "finalPrice": "input.price * (1 - derived._$calculateDiscount)" }
 ]
 ```
+
+</TabItem>
+</Tabs>
 
 ## Key characteristics
 

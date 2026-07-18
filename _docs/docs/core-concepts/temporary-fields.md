@@ -8,6 +8,29 @@ When a field name starts with `_`, its value is still computed and available in 
 
 ## Example
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+<TabItem value="input" label="Input" default>
+
+```json
+{
+  "price": 100,
+  "quantity": 3
+}
+```
+
+</TabItem>
+<TabItem value="output" label="Output">
+
+```json
+{ "total": 330 }
+```
+
+</TabItem>
+<TabItem value="transforms" label="Transforms">
+
 ```json
 [
   { "_subtotal": "input.price * input.quantity" },
@@ -16,19 +39,18 @@ When a field name starts with `_`, its value is still computed and available in 
 ]
 ```
 
-With input `{ price: 100, quantity: 3 }`, the output would be:
+</TabItem>
+</Tabs>
 
-```json
-{ "total": 330 }
-```
+The `_subtotal` (300) and `_tax` (30) fields are computed and available via `derived` during execution, but they do **not** appear in the final output — only `total` (330) is returned.
 
-The `_subtotal` and `_tax` fields are used internally but do not appear in the output.
-
-## Use cases
+:::info Use cases
 
 - **Multi-step calculations** — Break complex logic into intermediate steps
 - **Conditional logic** — Compute conditions without exposing them
 - **Derived data reuse** — Avoid repeating the same sub-expression
+
+:::
 
 ## Note
 
