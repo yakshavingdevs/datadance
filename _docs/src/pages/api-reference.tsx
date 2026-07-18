@@ -312,10 +312,6 @@ export default function APIReferencePage() {
       <main className="container" style={{ padding: "2rem 0" }}>
         <div className="row">
           <div className="col">
-            <div className="alert alert--info" role="alert">
-              <strong>Base URL:</strong> <code>https://datadance.org</code> (production) or{" "}
-              <code>http://localhost:8000</code> (local development).
-            </div>
             {endpoints.map((ep) => (
               <EndpointCard key={ep.path} endpoint={ep} />
             ))}

@@ -53,7 +53,6 @@ const config: Config = {
           label: "Docs",
         },
         { to: "/playground", label: "Playground", position: "left" },
-        { to: "/api-reference", label: "API Reference", position: "left" },
         {
           href: "https://github.com/yakshavingdevs/datadance",
           label: "GitHub",

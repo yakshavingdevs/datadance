@@ -2,11 +2,6 @@
 
 The Datadance server exposes a REST API for processing transforms and managing saved transformations.
 
-## Base URL
-
-**Production:** `https://datadance.org`  
-**Local development:** `http://localhost:8000`
-
 ## Endpoints overview
 
 | Method | Endpoint | Description |
