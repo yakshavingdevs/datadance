@@ -37,6 +37,10 @@ const config: Config = {
     ],
   ],
 
+  plugins: [
+    "docusaurus-plugin-llms",
+  ],
+
   themeConfig: {
     image: "img/datadance-social-card.png",
     navbar: {
